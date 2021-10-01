@@ -24,7 +24,7 @@ cron "15 6-18/6 * * *" script-path=jd_pet.js,tag=东东萌宠
 东东萌宠 = type=cron,script-path=jd_pet.js, cronexpr="15 6-18/6 * * *", timeout=3600, enable=true
 
 */
-let sc = require("./KingRan_JDJB_share_code.js")
+let sc = require("./utils/share_code.js")
 const $ = new Env('东东萌宠');
 let cookiesArr = [],
     cookie = '',

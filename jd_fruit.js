@@ -24,7 +24,7 @@ cron "5 6-18/6 * * *" script-path=jd_fruit.js,tag=东东农场
 export DO_TEN_WATER_AGAIN="" 默认再次浇水
 
 */
-let sc = require("./KingRan_JDJB_share_code.js")
+let sc = require("./utils/share_code.js")
 const $ = new Env('东东农场');
 let cookiesArr = [],
     cookie = '',
