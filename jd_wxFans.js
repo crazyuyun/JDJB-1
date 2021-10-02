@@ -58,7 +58,7 @@ if ($.isNode()) {
                 continue;
             }
             await main();
-            await $.wait(1000);
+            await $.wait(3000);
             console.log('\n')
         }
     }
@@ -71,7 +71,7 @@ async function main() {
         console.log(`获取token失败`);return;
     }
     console.log(`token:${$.token}`);
-    await $.wait(1000);
+    await $.wait(3000);
     await getActCk();
     $.shopId = ``;
     await takePostRequest('getSimpleActInfoVo');
@@ -79,7 +79,7 @@ async function main() {
         console.log(`获取shopid失败`);return;
     }
     console.log(`shopid:${$.shopid}`)
-    await $.wait(1000);
+    await $.wait(3000);
     $.pin = '';
     await takePostRequest('getMyPing');
     if($.pin === ``){
@@ -87,10 +87,10 @@ async function main() {
         console.log(`获取pin失败,该账号可能是黑号`);return;
     }
     $.cookie=$.cookie + `AUTH_C_USER=${$.pin}`;
-    await $.wait(1000);
+    await $.wait(3000);
     await accessLogWithAD();
     $.cookie=$.cookie + `AUTH_C_USER=${$.pin}`;
-    await $.wait(1000);
+    await $.wait(3000);
     $.activityData = {};
     $.actinfo = '';$.actorInfo='';$.nowUseValue = 0;
     await takePostRequest('activityContent');
@@ -113,13 +113,13 @@ async function main() {
     if($.actorInfo.prizeOneStatus && $.actorInfo.prizeTwoStatus && $.actorInfo.prizeThreeStatus){
         console.log(`已抽过所有奖品`);return;
     }
-    await $.wait(1000);
+    await $.wait(3000);
     $.memberInfo = {};
     await takePostRequest('getActMemberInfo');
     if($.memberInfo.actMemberStatus === 1 && !$.memberInfo.openCard){
         console.log(`\n====================该活动需要入会,如需执行，请先手动入会====================`);return ;
     }
-    await $.wait(1000);
+    await $.wait(3000);
     $.upFlag = false;
     await doTask();
     await luckDraw();//抽奖
@@ -128,26 +128,26 @@ async function main() {
 async function luckDraw(){
     if($.upFlag){
         await takePostRequest('activityContent');
-        await $.wait(1000);
+        await $.wait(3000);
     }
     let nowUseValue = Number($.activityData.actorInfo.fansLoveValue) + Number($.activityData.actorInfo.energyValue) ;
     if (nowUseValue >= $.activityData.actConfig.prizeScoreOne && $.activityData.actorInfo.prizeOneStatus === false) {
         console.log(`开始第一次抽奖`);
         $.drawType = '01';
         await takePostRequest('startDraw');
-        await $.wait(1000);
+        await $.wait(3000);
     }
     if (nowUseValue >= $.activityData.actConfig.prizeScoreTwo && $.activityData.actorInfo.prizeTwoStatus === false) {
         console.log(`开始第二次抽奖`);
         $.drawType = '02';
         await takePostRequest('startDraw');
-        await $.wait(1000);
+        await $.wait(3000);
     }
     if (nowUseValue >= $.activityData.actConfig.prizeScoreThree && $.activityData.actorInfo.prizeThreeStatus === false) {
         console.log(`开始第三次抽奖`);
         $.drawType = '03';
         await takePostRequest('startDraw');
-        await $.wait(1000);
+        await $.wait(3000);
     }
 }
 async function doTask(){
@@ -155,7 +155,7 @@ async function doTask(){
     if($.activityData.actorInfo && !$.activityData.actorInfo.follow){
         console.log(`关注店铺`);
         await takePostRequest('followShop');
-        await $.wait(2000);
+        await $.wait(3000);
         $.upFlag = true;
     }else{
         console.log('已关注')
@@ -163,7 +163,7 @@ async function doTask(){
     if ($.activityData.task1Sign && $.activityData.task1Sign.finishedCount === 0 && $.runFalag) {
         console.log(`执行每日签到`);
         await takePostRequest('doSign');
-        await $.wait(2000);
+        await $.wait(3000);
         $.upFlag = true;
     }else{
         console.log(`已签到`)
@@ -180,7 +180,7 @@ async function doTask(){
                 if ($.oneGoodInfo.finished === false) {
                     console.log(`浏览:${$.oneGoodInfo.skuName || ''}`)
                     await takePostRequest('doBrowGoodsTask');
-                    await $.wait(2000);
+                    await $.wait(3000);
                     needFinishNumber--;
                 }
             }
@@ -199,7 +199,7 @@ async function doTask(){
                 if ($.oneGoodInfo.finished === false) {
                     console.log(`加购:${$.oneGoodInfo.skuName || ''}`)
                     await takePostRequest('doAddGoodsTask');
-                    await $.wait(2000);
+                    await $.wait(3000);
                     needFinishNumber--;
                 }
             }
@@ -216,7 +216,7 @@ async function doTask(){
             for (let i = 0; i < needFinishNumber && $.runFalag; i++) {
                 console.log(`执行第${i+1}次分享`);
                 await takePostRequest('doShareTask');
-                await $.wait(2000);
+                await $.wait(3000);
             }
         }else{
             console.log(`分享任务已完成`)
@@ -228,7 +228,7 @@ async function doTask(){
             console.log(`执行设置活动提醒`);
             $.upFlag = true;
             await takePostRequest('doRemindTask');
-            await $.wait(2000);
+            await $.wait(3000);
         }else{
             console.log(`设置活动提醒已完成`)
         }
@@ -243,7 +243,7 @@ async function doTask(){
                 $.oneCouponInfo = $.activityData.task6GetCoupon.taskCouponInfoList[i];
                 if ($.oneCouponInfo.finished === false) {
                     await takePostRequest('doGetCouponTask');
-                    await $.wait(2000);
+                    await $.wait(3000);
                     needFinishNumber--;
                 }
             }
@@ -257,7 +257,7 @@ async function doTask(){
             console.log(`执行逛会场`);
             $.upFlag = true;
             await takePostRequest('doMeetingTask');
-            await $.wait(2000);
+            await $.wait(3000);
         }else{
             console.log(`逛会场已完成`)
         }
