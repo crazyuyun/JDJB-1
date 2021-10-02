@@ -34,10 +34,16 @@ Cannot find module './xxxx'
 那就很有是拉库命令不完整，请检查或复制完整的拉库命令。
 
 部分需要的依赖：自行安装
+
 "npm install -g npm"
+
 "pip3 install requests"
+
 "pip3 install pytz"
+
 "npm install -g download"
+
 "pnpm install jsdom"
+
 "apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev && cd scripts && npm install canvas png-js md5 date-fns axios crypto-js tslib ts-md5 @types/node --build-from-source"
 
