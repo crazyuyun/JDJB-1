@@ -4,15 +4,19 @@
 拉库命令：
 
 国内鸡：
+
 ql repo https://ghproxy.com/github.com/KingRan/JDJB.git "jd_|jx_|jdCookie" "activity|backUp" "^jd[^_]|USER|utils|function|sendNotify|ql|JDJR"
 
 国外鸡：
+
 ql repo https://github.com/KingRan/JDJB.git "jd_|jx_|jdCookie" "activity|backUp" "^jd[^_]|USER|utils|function|sendNotify|ql|JDJR"
 
 1.出现这种错误：
+
 Cannot find module 'xxxx'
 
 依赖不完整，解决方法：
+
 docker exec -it qinglong(容器名称) bash
 
 cd /ql/scripts/
