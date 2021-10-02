@@ -25,7 +25,7 @@ cron "17 1,12 * * *" script-path=jd_joy.js,tag=京东宠汪汪
 
 */
 
-const $ = new Env('宠汪汪1');
+const $ = new Env('宠汪汪');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
