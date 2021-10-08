@@ -2,7 +2,7 @@
 10.8-10.14 超店会员福利社
 入口：https://lzdz1-isv.isvjcloud.com/dingzhi/shop/league/activity?activityId=dz2109100001616222&shareUuid=9a5ff4a722cd4220b3c5b924047ca782
 
-30 7 * * * https://github.com/KingRan/JD-Scripts/blob/main/jd_opencard1.js, tag=10.8-10.14 超级会员福利社, enabled=true
+30 7 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_opencard1.js, tag=10.8-10.14 超级会员福利社, enabled=true
 **/
 
 const $ = new Env("10.8-10.14 超店会员福利社");
