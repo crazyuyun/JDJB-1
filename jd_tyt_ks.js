@@ -66,7 +66,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
                 break
             }
             await tythelp()
-            await $.wait(10000)
+            await $.wait(15000)
         }
     }
 })()
