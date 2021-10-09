@@ -3,7 +3,7 @@
 
 https://lzdz4-isv.isvjcloud.com/dingzhi/haier/active/activity/5774784?activityId=dz2109100000178201&shareUuid=6a7490ab735b408ca9dcf98a412f3106
 
-cron 10 14 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_haier.js
+cron 27 4,18 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_haier.js
 */
 const $ = new Env("瓜分海尔万元小家电");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';

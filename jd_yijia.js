@@ -3,7 +3,7 @@
 
 https://lzdz1-isv.isvjcloud.com/dingzhi/yijia/collectvalue/activity/5063373?activityId=dz2109100000194701&shareUuid=5d89fb982e654d2ca8e3016bd5d1e74b
 
-cron 10 14 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_yijia.js
+cron 27 5,16 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_yijia.js
 */
 const $ = new Env("一加 9RT新品发布");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
