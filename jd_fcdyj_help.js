@@ -75,7 +75,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
                 if (!$.canRun) {
                     continue;
                 }
-                await $.wait(1000)
+                await $.wait(5000)
                 await help($.rid, $.inviter, 2)
             }
         }
@@ -94,7 +94,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
                     if (!$.canRun) {
                         break;
                     }
-                    await $.wait(1000)
+                    await $.wait(5000)
                     await help(item.redEnvelopeId, item.inviter, 2)
                 }
             }
@@ -113,7 +113,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
                 if ($.canWx) {
                     await exchange()
                 }
-                await $.wait(1000)
+                await $.wait(5000)
             }
         }
     }
