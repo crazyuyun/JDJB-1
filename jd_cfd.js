@@ -1175,21 +1175,21 @@ function helpByStage(shareCodes) {
           console.log(`${$.name} helpbystage API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data);
-          if (data.iRet === 0 && data.sErrMsg === 'success') {
+          if (data.iRet === 0 || data.sErrMsg === 'success') {
             console.log(`助力成功：获得${data.Data.GuestPrizeInfo.strPrizeName}`)
-          } else if (data.iRet === 2232 && data.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
+          } else if (data.iRet === 2235 || data.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
             console.log(`助力失败：${data.sErrMsg}`)
             $.canHelp = false
-          } else if (data.iRet === 2232 && data.sErrMsg === '分享链接已过期') {
+          } else if (data.iRet === 2232 || data.sErrMsg === '分享链接已过期') {
             console.log(`助力失败：${data.sErrMsg}`)
             $.delcode = true
-          } else if (data.iRet === 9999 && data.sErrMsg === '您还没有登录，请先登录哦~') {
+          } else if (data.iRet === 9999 || data.sErrMsg === '您还没有登录，请先登录哦~') {
             console.log(`助力失败：${data.sErrMsg}`)
             $.canHelp = false
-          } else if (data.iRet === 2229 && data.sErrMsg === '助力失败啦~') {
+          } else if (data.iRet === 2229 || data.sErrMsg === '助力失败啦~') {
             console.log(`助力失败：您的账号已黑`)
             $.canHelp = false
-          } else if (data.iRet === 2190 && data.sErrMsg === '达到助力上限') {
+          } else if (data.iRet === 2190 || data.sErrMsg === '达到助力上限') {
             console.log(`助力失败：${data.sErrMsg}`)
             $.delcode = true
           } else {
