@@ -37,8 +37,8 @@ if ($.isNode()) {
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 let inviteCodes = [
-  'XYLgzOSjSAugfc_WW9R_mnFfT_DM6coiMsD0gKcYPQ@RtGKzemkE1-iKtDMFdYxgqyoiMGjQQMJXutXDQAH0sLokvoZsg@RtGKzL7wFAmletKTFNxggB2J22pKi7M4vtRPSfGKdNs7CJNEuA',
-  'XYLgzOSjSAugfc_WW9R_mnFfT_DM6coiMsD0gKcYPQ@RtGKzemkE1-iKtDMFdYxgqyoiMGjQQMJXutXDQAH0sLokvoZsg@RtGKzL7wFAmletKTFNxggB2J22pKi7M4vtRPSfGKdNs7CJNEuA'
+  'XYLgzOSjSAugfc_WW9R_mnFfT_DM6coiMsD0gKcYPQ@RtGKzemkE1-iKtDMFdYxgqyoiMGjQQMJXutXDQAH0sLokvoZsg@RtGKzL7wFAmletKTFNxggB2J22pKi7M4vtRPSfGKdNs7CJNEuA@RtGKzuzwEgunftKfQtM03t7FViXkI-EXh5iQGB07b86Fm6BXdQ@RtGKzuT2QQmrK4LJE4Y03y6o44zcYE5wbyGl7IqT9F0nXdUDNA@RtGKsangOFHJCP7EaIZtmrlkVjV3SMyuuyM-cyo4d0mzpCIX@RtGKjZb-KVP3A-XAX7FsmgAsApVxFfOmv1egeoRn6Ui-98Vi',
+  'XYLgzOSjSAugfc_WW9R_mnFfT_DM6coiMsD0gKcYPQ@RtGKzemkE1-iKtDMFdYxgqyoiMGjQQMJXutXDQAH0sLokvoZsg@RtGKzL7wFAmletKTFNxggB2J22pKi7M4vtRPSfGKdNs7CJNEuA@RtGKzuzwEgunftKfQtM03t7FViXkI-EXh5iQGB07b86Fm6BXdQ@RtGKzuT2QQmrK4LJE4Y03y6o44zcYE5wbyGl7IqT9F0nXdUDNA@RtGKsangOFHJCP7EaIZtmrlkVjV3SMyuuyM-cyo4d0mzpCIX@RtGKjZb-KVP3A-XAX7FsmgAsApVxFfOmv1egeoRn6Ui-98Vi'
 ]
 !(async () => {
   if (!cookiesArr[0]) {
@@ -49,7 +49,7 @@ let inviteCodes = [
   if (exchangeFlag) {
     console.log(`脚本自动抽奖`)
   } else {
-    console.log(`脚本不会自动抽奖，建议活动快结束开启，默认关闭(在6.2日自动开启抽奖),如需自动抽奖请设置环境变量  JD_CITY_EXCHANGE 为true`);
+    console.log(`脚本不会自动抽奖，建议活动快结束开启，默认关闭(在6.2日自动开启抽奖),如需自动抽奖请设置环境变量  JD_CITY_EXCHANGE 为true\n第一次跑一次然后查看自己的互助码后添加环境变量\n请添加环境变量export CITY_SHARECODES=code1&code2`);
   }
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
