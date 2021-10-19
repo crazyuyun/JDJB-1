@@ -25,7 +25,7 @@ DDEXCHANGE="6"只兑换1000京豆
 DDEXCHANGE="5"只兑换500京豆
 DDEXCHANGE="1"只兑换200京豆
 */
-const $ = new Env('东东世界兑换');
+const $ = new Env('东东世界');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const exchangeId = $.isNode() ? (process.env.DDEXCHANGE ? process.env.DDEXCHANGE : "999"):"999";
@@ -120,6 +120,7 @@ async function main() {
     await takeGetRequest('get_exchange');
     for (let i = $.exChangeList.length -1; i >= 0 ; i--) {
         let oneExchange = $.exChangeList[i];
+        console.log(`奖励：${oneExchange.name}，库存：${oneExchange.stock}`);
         if(exchangeId !== '999' && Number(exchangeId) !== oneExchange.id){
             continue;
         }
@@ -152,6 +153,7 @@ function getRandomArrayElements(arr, count) {
 }
 
 async function doTask(){
+    $.taskDetailList = []
     for (let i = 0; i < $.taskList.length; i++) {
         $.oneTask = $.taskList[i];
         $.taskDetailList = $.oneTask.simpleRecordInfoVo || $.oneTask.browseShopVo || $.oneTask.shoppingActivityVos || $.oneTask.productInfoVos ||$.oneTask.assistTaskDetailVo;
@@ -169,7 +171,12 @@ async function doTask(){
             continue;
         }
         if($.oneTask.taskType === 12){
-            $.info = $.taskDetailList;
+            if(Array.isArray($.taskDetailList)){
+                $.info = $.taskDetailList[0];
+            }else{
+                $.info = $.taskDetailList;
+            }
+            console.log('111:'+JSON.stringify($.info ))
             console.log(`任务：${$.oneTask.taskName} 去执行`);
             await takePostRequest('do_task');
             await $.wait(1000);
