@@ -109,7 +109,7 @@ let inviteCodes = [
           }
         }
       }
-      await $.wait(1000)
+      await $.wait(3000)
     }
   }
 })()
