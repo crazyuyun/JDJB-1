@@ -71,7 +71,6 @@ let inviteCodes = [
       }
       await shareCodesFormat()
       await getInfo('',true);
-	  await $.wait(3000)
       for (let i = 0; i < $.newShareCodes.length; ++i) {
         console.log(`\n开始助力 【${$.newShareCodes[i]}】`)
         let res = await getInfo($.newShareCodes[i])
@@ -88,6 +87,7 @@ let inviteCodes = [
           // 助力次数耗尽 || 黑号
           break
         }
+        await $.wait(1000)
       }
       await getInviteInfo();//雇佣
       if (exchangeFlag) {
@@ -110,7 +110,7 @@ let inviteCodes = [
           }
         }
       }
-      await $.wait(3000)
+      await $.wait(1000)
     }
   }
 })()
