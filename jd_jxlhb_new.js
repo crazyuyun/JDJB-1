@@ -19,7 +19,7 @@ cron "11 0,7 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/m
 ===============小火箭==========
 京喜领88元红包 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb_new.js, cronexpr="11 0,7 * * *", timeout=3600, enable=true
  */
-const $ = new Env('新版京喜领88元红包');
+const $ = new Env('京喜领88元红包');
 const notify = $.isNode() ? require('./sendNotify') : {};
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 let cookiesArr = [], cookie = '';
@@ -86,7 +86,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
       }
       $.max = false;
       await enrollFriend($.packetIdArr[j].strUserPin);
-      await $.wait(5000);
+      await $.wait(7000);
       if ($.max) {
         $.packetIdArr.splice(j, 1)
         j--
@@ -99,7 +99,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
         console.log(`【${$.UserName}】去助力作者的邀请码：${$.authorMyShareIds[j]}`);
         $.max = false;
         await enrollFriend($.authorMyShareIds[j]);
-        await $.wait(5000);
+        await $.wait(7000);
         if ($.max) {
           $.authorMyShareIds.splice(j, 1)
           j--
