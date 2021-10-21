@@ -5,17 +5,17 @@
 =================================Quantumultx=========================
 [task_local]
 #城城领现金
-0 0-23/1 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js, tag=城城领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+23 0-20/4 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js, tag=城城领现金, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 =================================Loon===================================
 [Script]
-cron "0 0-23/1 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js,tag=城城领现金
+cron "23 0-20/4 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js,tag=城城领现金
 
 ===================================Surge================================
-城城领现金 = type=cron,cronexp="0 0-23/1 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js
+城城领现金 = type=cron,cronexp="23 0-20/4 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js
 
 ====================================小火箭=============================
-城城领现金 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js, cronexpr="0 0-23/1 * * *", timeout=3600, enable=true
+城城领现金 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_city.js, cronexpr="23 0-20/4 * * *", timeout=3600, enable=true
  */
 const $ = new Env('城城领现金');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -36,10 +36,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-let inviteCodes = [
-  'XYLgzOSjSAugfc_WW9R_mnFfT_DM6coiMsD0gKcYPQ@RtGKzemkE1-iKtDMFdYxgqyoiMGjQQMJXutXDQAH0sLokvoZsg@RtGKzL7wFAmletKTFNxggB2J22pKi7M4vtRPSfGKdNs7CJNEuA',
-  'XYLgzOSjSAugfc_WW9R_mnFfT_DM6coiMsD0gKcYPQ@RtGKzemkE1-iKtDMFdYxgqyoiMGjQQMJXutXDQAH0sLokvoZsg@RtGKzL7wFAmletKTFNxggB2J22pKi7M4vtRPSfGKdNs7CJNEuA'
-  ]
+let inviteCodes = []
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -118,8 +115,7 @@ let inviteCodes = [
               break
             }
           } else {
-            console.log(`未知错误，跳出`)
-            break
+            console.log(`助力失败：不能助力自己`)
           }
           if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0]) {
             console.log(`助力 【${$.readShareCode[j]}】:${res.data.result.toasts[0].msg}`)
@@ -146,8 +142,7 @@ let inviteCodes = [
               break
             }
           } else {
-            console.log(`未知错误，跳出`)
-            break
+            console.log(`助力失败：不能助力自己`)
           }
           if (res['data']['result']['toasts'] && res['data']['result']['toasts'][0]) {
             console.log(`助力 【${$.newShareCodes[j]}】:${res.data.result.toasts[0].msg}`)
@@ -240,29 +235,58 @@ function getInfo(inviteId, flag = false) {
     })
   })
 }
-function receiveCash(roundNum) {
-  let body = {"cashType":1,"roundNum":roundNum}
+function receiveCash(roundNum, type = 1) {
   return new Promise((resolve) => {
-    $.post(taskPostUrl("city_receiveCash",body), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (safeGet(data)) {
-            console.log(`领红包结果${data}`);
-            data = JSON.parse(data);
-            if (data['data']['bizCode'] === 0) {
-              console.log(`获得 ${data.data.result.currentTimeCash} 元，共计 ${data.data.result.totalCash} 元`)
+    let body;
+    switch (type) {
+      case 1:
+        body = {"cashType":1,"roundNum":roundNum}
+        $.post(taskPostUrl("city_receiveCash", body), async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${JSON.stringify(err)}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                console.log(`领红包结果${data}`);
+                data = JSON.parse(data);
+                if (data['data']['bizCode'] === 0) {
+                  console.log(`获得 ${data.data.result.currentTimeCash} 元，共计 ${data.data.result.totalCash} 元`)
+                }
+              }
             }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
           }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
+        })
+        break;
+      case 2:
+        body = {"cashType":"4"}
+        $.post(taskPostUrl("city_receiveCash", body), async (err, resp, data) => {
+          try {
+            if (err) {
+              console.log(`${JSON.stringify(err)}`)
+              console.log(`${$.name} API请求失败，请检查网路重试`)
+            } else {
+              if (safeGet(data)) {
+                data = JSON.parse(data);
+                if (data['data']['bizCode'] === 0) {
+                  console.log(`领取赏金 ${data.data.result.currentTimeCash} 元，共计 ${data.data.result.totalCash} 元`)
+                }
+              }
+            }
+          } catch (e) {
+            $.logErr(e, resp)
+          } finally {
+            resolve(data);
+          }
+        })
+        break;
+      default:
+        break;
+    }
   })
 }
 function getInviteInfo() {
@@ -276,7 +300,12 @@ function getInviteInfo() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            // console.log(data)
+            if (data.code === 0 && data.data.bizCode ===0) {
+              if (data.data.result.masterData.actStatus === 2) {
+                await receiveCash('', 2)
+                await $.wait(2000)
+              }
+            }
           }
         }
       } catch (e) {
