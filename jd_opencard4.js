@@ -1,7 +1,7 @@
 /*
 惠聚京东 好物连连10-20 ~ 11-3
 
-https://lzdz1-isv.isvjcloud.com/dingzhi/customized/common/activity/5063373?activityId=llk20211020&shareUuid=91245cc15b1847b1961c10c5412f2420
+https://lzdz1-isv.isvjcloud.com/dingzhi/customized/common/activity/5063373?activityId=llk20211020&shareUuid=169b20a20b4040d4bd8ddb813803e558
 
 cron 27 3,15 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_opencard3.js
 */
