@@ -3,7 +3,7 @@
 
 https://lzdz1-isv.isvjcloud.com/dingzhi/customized/common/activity/5063373?activityId=llk20211020&shareUuid=169b20a20b4040d4bd8ddb813803e558
 
-cron 27 3,15 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_opencard3.js
+cron 15 2,9 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_opencard4.js
 */
 const $ = new Env("惠聚京东 好物连连10-20 ~ 11-3");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
