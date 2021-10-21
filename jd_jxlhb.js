@@ -7,17 +7,17 @@
 ==============Quantumult X==============
 [task_local]
 #京喜领88元红包
-24 0,2 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb.js, tag=京喜领88元红包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+11 0,7 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb_new.js, tag=京喜领88元红包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ==============Loon==============
 [Script]
-cron "24 0,2 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb.js,tag=京喜领88元红包
+cron "11 0,7 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb_new.js,tag=京喜领88元红包
 
 ================Surge===============
-京喜领88元红包 = type=cron,cronexp="24 0,2 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb.js
+京喜领88元红包 = type=cron,cronexp="11 0,7 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb_new.js
 
 ===============小火箭==========
-京喜领88元红包 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb.js, cronexpr="24 0,2 * * *", timeout=3600, enable=true
+京喜领88元红包 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_jxlhb_new.js, cronexpr="11 0,7 * * *", timeout=3600, enable=true
  */
 const $ = new Env('京喜领88元红包');
 const notify = $.isNode() ? require('./sendNotify') : {};
@@ -33,7 +33,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
 $.packetIdArr = [];
-$.activeId = '489177';
+$.activeId = '525597';
 const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
 !(async () => {
   if (!cookiesArr[0]) {
@@ -86,7 +86,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
       }
       $.max = false;
       await enrollFriend($.packetIdArr[j].strUserPin);
-      await $.wait(5000);
+      await $.wait(7000);
       if ($.max) {
         $.packetIdArr.splice(j, 1)
         j--
@@ -99,7 +99,7 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
         console.log(`【${$.UserName}】去助力作者的邀请码：${$.authorMyShareIds[j]}`);
         $.max = false;
         await enrollFriend($.authorMyShareIds[j]);
-        await $.wait(5000);
+        await $.wait(7000);
         if ($.max) {
           $.authorMyShareIds.splice(j, 1)
           j--
