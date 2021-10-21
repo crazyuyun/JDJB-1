@@ -187,8 +187,8 @@ function pigPetUserBag() {
                       let i = 50
                       console.log(`\n每次运行最多喂食50次`)
                       do {
-                        console.log(`\n10秒后开始喂食${item.goodsName}，当前数量为${item.count}g`)
-                        await $.wait(10000);
+                        console.log(`\n15秒后开始喂食${item.goodsName}，当前数量为${item.count}g`)
+                        await $.wait(15000);
                         await pigPetAddFood(item.sku);
                         if ($.finish) break
                         item.count = item.count - 20
