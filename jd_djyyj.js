@@ -1,5 +1,5 @@
 /*
-cron 17 5,21 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_djyyj.js
+cron 17 5,16 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_djyyj.js
 
 */
 const Ariszy = '电竞预言家'
