@@ -1,14 +1,13 @@
 /*
   https://st.jingxi.com/fortune_island/index2.html
-  1 0 * * * jd_cfd_help.js 财富大陆互助
+  38 0,9,18 * * * jd_cfd_help.js 财富大陆互助
 
   默认按账号顺序提交
   如需自定义请在环境变量[gua_wealth_island_codeId](只提交前3个)例:
   gua_wealth_island_codeId="3,5,8"
 
-  先账号互助完再助力助力池
-  默认其余的助力给助力池
-  如果介意请不要使用本脚本
+  默认账号互助
+
   
 */
 
@@ -1921,25 +1920,23 @@ $.appId = 10032;
 
 !(async() => {
     $.InviteLists = []
-    if (!cookiesArr[0]) {
-        $.msg('【京东账号一】宠汪汪积分兑换奖品失败', '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {
-            "open-url": "https://bean.m.jd.com/bean/signIndex.action"
-        });
-        return
+  if (!cookiesArr[0]) {
+    $.msg('', '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+    return
     }
     await getCode()
     await requestAlgo();
-    for (let i = 0; i < 3; i++) {
-        if (cookiesArr[i]) {
-            $.cookie = cookiesArr[i] + '';
-            $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-            $.index = i + 1;
-            $.isLogin = true;
-            UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
-            console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
-            await run();
-        }
+  for (let i = 0; i < cookiesArr.length; i++) {
+    if (cookiesArr[i]) {
+      $.cookie = cookiesArr[i] + '';
+      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+      $.index = i + 1;
+      $.isLogin = true;
+      UA = `jdapp;iPhone;10.0.5;${Math.ceil(Math.random()*2+12)}.${Math.ceil(Math.random()*4)};${randomString(40)};`
+      console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
+      await run();
     }
+  }
     // 助力
     let res = [],
         res2 = [];
@@ -1983,7 +1980,7 @@ $.appId = 10032;
             } else {
                 console.log(JSON.stringify(res))
             }
-            await $.wait(1000);
+            await $.wait(2000);
         }
         // $.InviteLists = []
         // $.innerInviteLists = getRandomArrayElements([...res, ...res2], [...res, ...res2].length >= getShareNum ? getShareNum : [...res, ...res2].length);
