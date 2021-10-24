@@ -1,8 +1,10 @@
 /*
-cron 17 5,16 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_djyyj.js
-
+tgchannel：https://t.me/Ariszy_Script
+github：https://github.com/Ariszy/script
+boxjs：https://raw.githubusercontent.com/Ariszy/Private-Script/master/Ariszy.boxjs.json
+cron 6 6 * * * jd_djyyj.js
 */
-const Ariszy = '电竞预言家'
+const Ariszy = '电竞预言家-10.24-25'
 const $ = Env(Ariszy)
 const notify = $.isNode() ?require('./sendNotify') : '';
 cookiesArr = []
@@ -20,333 +22,339 @@ const logs =0;//0为关闭日志，1为开启
 var hour=''
 var minute=''
 if ($.isNode()) {
-   hour = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getHours();
-   minute = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getMinutes();
+    hour = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getHours();
+    minute = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 ).getMinutes();
 }else{
-   hour = (new Date()).getHours();
-   minute = (new Date()).getMinutes();
+    hour = (new Date()).getHours();
+    minute = (new Date()).getMinutes();
 }
 //CK运行
 if ($.isNode()) {
-     Object.keys(jdCookieNode).forEach((item) => {
-          cookiesArr.push(jdCookieNode[item])
-     })
-     if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+    Object.keys(jdCookieNode).forEach((item) => {
+        cookiesArr.push(jdCookieNode[item])
+    })
+    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 } else {
-     cookiesArr = [
-          $.getdata("CookieJD"),
-          $.getdata("CookieJD2"),
-          ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
+    cookiesArr = [
+        $.getdata("CookieJD"),
+        $.getdata("CookieJD2"),
+        ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
-    
-!(async () => {
-  if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
-    return;
-  }
-  if(new Date().getHours() >= 18){
-   $.msg($.name,"不在竞猜时间内！请在18点之前运行")
-   return;
-}
-  for (let i =0; i < cookiesArr.length; i++) {
-      cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      message = ''
-      $.isLogin = true;
-      $.index = i + 1;
-       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-            if (!$.isLogin) {
-                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {
-                    "open-url": "https://bean.m.jd.com/bean/signIndex.action"
-                });
 
-                if ($.isNode()) {
-                    await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-                }
-                continue
+!(async () => {
+    if (!cookiesArr[0]) {
+        $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
+        return;
+    }
+    if(new Date().getHours() >= 18){
+        $.msg($.name,"不在竞猜时间内！请在18点之前运行")
+        return;
+    }
+    for (let i =0; i < cookiesArr.length; i++) {
+        cookie = cookiesArr[i];
+        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+        message = ''
+        $.isLogin = true;
+        $.index = i + 1;
+        console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
+        if (!$.isLogin) {
+            $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {
+                "open-url": "https://bean.m.jd.com/bean/signIndex.action"
+            });
+
+            if ($.isNode()) {
+                await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
             }
-      await getNowFormatDate()
-      await getlist()
-      await select()
-      await quiz()
-  }
-for(let i = 0; i < cookiesArr.length; i++){
-      cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      message = ''
-      $.isLogin = true;
-      $.index = i + 1;
-       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}助力模块*********\n`);
-     
-      await control()
-      await zy()
-}
+            continue
+        }
+        await getNowFormatDate()
+        await getlist()
+        await select()
+        await quiz()
+        await lottery()
+    }
+    for(let i = 0; i < cookiesArr.length; i++){
+        cookie = cookiesArr[i];
+        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+        message = ''
+        $.isLogin = true;
+        $.index = i + 1;
+        console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}助力模块*********\n`);
+
+        await control()
+        await zy()
+    }
 
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-    
+
 
 function PostRequest(body) {
-  const url = `https://api.m.jd.com/api`;
-  const method = `POST`;
-  const headers = {"Accept": "application/json, text/plain, */*",
-"Accept-Encoding": "gzip, deflate, br",
-"Accept-Language": "zh-cn",
-"Connection": "keep-alive",
-"Content-Type": "application/x-www-form-urlencoded",
-"Cookie": cookie,
-"Host": "api.m.jd.com",
-"Origin": "https://dnsm618-100million.m.jd.com",
-"Referer": "https://dnsm618-100million.m.jd.com/?tttparams=i1zsmeyJsbmciOiIxMjEuNDA2ODU4IiwiZ0xhdCI6IjMxLjM2MDY0IiwibGF0IjoiMzEuMzYzODE2IiwiZ0xuZyI6IjEyMS4zOTQzNCIsImdwc19hcmVhIjoiMl8yODI0XzUxOTE2XzAiLCJ1bl9hcmVhIjoiMl8yODI0XzUxOTE2XzAifQ5%3D%3D&lng=121.4068579645437&lat=31.3638155217524&sid=e6dd8c1e78a945e105d9896b009fc6aw&un_area=2_2824_51916_0",
-"User-Agent": "jdapp;iPhone;9.4.6;14.4;0bcbcdb2a68f16cf9c9ad7c9b944fd141646a849;network/4g;ADID/BF650B20-A81A-4172-98EE-064834D97D6E;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone12,1;addressid/2377723269;supportBestPay/0;appBuild/167618;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"
-}
-  return {url: url, method: method, headers: headers, body: body};
+    const url = `https://api.m.jd.com/api`;
+    const method = `POST`;
+    const headers = {"Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.m.jd.com",
+        "Origin": "https://dnsm618-100million.m.jd.com",
+        "Referer": "https://dnsm618-100million.m.jd.com/?tttparams=i1zsmeyJsbmciOiIxMjEuNDA2ODU4IiwiZ0xhdCI6IjMxLjM2MDY0IiwibGF0IjoiMzEuMzYzODE2IiwiZ0xuZyI6IjEyMS4zOTQzNCIsImdwc19hcmVhIjoiMl8yODI0XzUxOTE2XzAiLCJ1bl9hcmVhIjoiMl8yODI0XzUxOTE2XzAifQ5%3D%3D&lng=121.4068579645437&lat=31.3638155217524&sid=e6dd8c1e78a945e105d9896b009fc6aw&un_area=2_2824_51916_0",
+        "User-Agent": "jdapp;iPhone;9.4.6;14.4;0bcbcdb2a68f16cf9c9ad7c9b944fd141646a849;network/4g;ADID/BF650B20-A81A-4172-98EE-064834D97D6E;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone12,1;addressid/2377723269;supportBestPay/0;appBuild/167618;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"
+    }
+    return {url: url, method: method, headers: headers, body: body};
 }
 
 function GetRequest() {
-  const url = `https://api.m.jd.com/api`;
-  const method = `GET`;
-  const headers = {"Accept": "application/json, text/plain, */*",
-"Accept-Encoding": "gzip, deflate, br",
-"Accept-Language": "zh-cn",
-"Connection": "keep-alive",
-"Content-Type": "application/x-www-form-urlencoded",
-"Cookie": cookie,
-"Host": "api.m.jd.com",
-"Origin": "https://dnsm618-100million.m.jd.com",
-"Referer": "https://dnsm618-100million.m.jd.com/?tttparams=i1zsmeyJsbmciOiIxMjEuNDA2ODU4IiwiZ0xhdCI6IjMxLjM2MDY0IiwibGF0IjoiMzEuMzYzODE2IiwiZ0xuZyI6IjEyMS4zOTQzNCIsImdwc19hcmVhIjoiMl8yODI0XzUxOTE2XzAiLCJ1bl9hcmVhIjoiMl8yODI0XzUxOTE2XzAifQ5%3D%3D&lng=121.4068579645437&lat=31.3638155217524&sid=e6dd8c1e78a945e105d9896b009fc6aw&un_area=2_2824_51916_0",
-"User-Agent": "jdapp;iPhone;9.4.6;14.4;0bcbcdb2a68f16cf9c9ad7c9b944fd141646a849;network/4g;ADID/BF650B20-A81A-4172-98EE-064834D97D6E;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone12,1;addressid/2377723269;supportBestPay/0;appBuild/167618;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"
-};
-  return {url: url, method: method, headers: headers};
+    const url = `https://api.m.jd.com/api`;
+    const method = `GET`;
+    const headers = {"Accept": "application/json, text/plain, */*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-cn",
+        "Connection": "keep-alive",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": cookie,
+        "Host": "api.m.jd.com",
+        "Origin": "https://dnsm618-100million.m.jd.com",
+        "Referer": "https://dnsm618-100million.m.jd.com/?tttparams=i1zsmeyJsbmciOiIxMjEuNDA2ODU4IiwiZ0xhdCI6IjMxLjM2MDY0IiwibGF0IjoiMzEuMzYzODE2IiwiZ0xuZyI6IjEyMS4zOTQzNCIsImdwc19hcmVhIjoiMl8yODI0XzUxOTE2XzAiLCJ1bl9hcmVhIjoiMl8yODI0XzUxOTE2XzAifQ5%3D%3D&lng=121.4068579645437&lat=31.3638155217524&sid=e6dd8c1e78a945e105d9896b009fc6aw&un_area=2_2824_51916_0",
+        "User-Agent": "jdapp;iPhone;9.4.6;14.4;0bcbcdb2a68f16cf9c9ad7c9b944fd141646a849;network/4g;ADID/BF650B20-A81A-4172-98EE-064834D97D6E;supportApplePay/0;hasUPPay/0;hasOCPay/0;model/iPhone12,1;addressid/2377723269;supportBestPay/0;appBuild/167618;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"
+    };
+    return {url: url, method: method, headers: headers};
 }
 
 
 async function quiz(){
- var answer = Math.round((Math.random()*10))%2 == 0 ? "A" : "B";
- const body = `appid=china-joy&functionId=champion_game_prod&body={"activityDate":"${currentdate}","answerCode":"${answer}","apiMapping":"/api/guessAnswer"}&t=${new Date().getTime()}&loginType=2`
- const MyRequest = PostRequest(body)
- return new Promise((resolve) => {
-   $.post(MyRequest,async(error, response, data) =>{
-    try{
-        const result = JSON.parse(data)
-        $.log(data)
-        if(result && result.code && result.code == 200){
-           console.log("\n参与竞猜成功，开奖时间为:"+(new Date().getDay()+"月"+(new Date().getDate()+1)+"日")+" 10:00 \n")
-   await $.wait(8000)
-        }else{
-           $.log(result.msg+"\n")
-        }
-        }catch(e) {
-          $.logErr(e, response);
-      } finally {
-        resolve();
-      } 
+    var answer = Math.round((Math.random()*10))%2 == 0 ? "A" : "B";
+    const body = `appid=china-joy&functionId=champion_game_prod&body={"activityDate":"${currentdate}","answerCode":"${answer}","apiMapping":"/api/guessAnswer"}&t=${new Date().getTime()}&loginType=2`
+    const MyRequest = PostRequest(body)
+    return new Promise((resolve) => {
+        $.post(MyRequest,async(error, response, data) =>{
+            try{
+                const result = JSON.parse(data)
+                $.log(data)
+                if(result && result.code && result.code == 200){
+                    console.log("\n参与竞猜成功，开奖时间为:"+(new Date().getMonth()+1+"月"+(new Date().getDate()+1)+"日")+" 10:00 \n")
+                    await $.wait(8000)
+                }else{
+                    $.log(result.msg+"\n")
+                }
+            }catch(e) {
+                $.logErr(e, response);
+            } finally {
+                resolve();
+            }
+        })
     })
-   })
-  }
-async function control(){
-for (let i =0; i < cookiesArr.length; i++) {
-      cookie = cookiesArr[i];
-      await getshareid()
 }
+async function control(){
+    for (let i =0; i < cookiesArr.length; i++) {
+        cookie = cookiesArr[i];
+        await getshareid()
+    }
 }
 async function getshareid(){
- const MyRequest = PostRequest(`appid=china-joy&functionId=champion_game_prod&body={"apiMapping":"/api/homePage"}&t=${new Date().getTime()}&loginType=2`)
- return new Promise((resolve) => {
-    $.post(MyRequest,async(error, response, data) =>{
-    try{
-        const result = JSON.parse(data)
-        if(logs)$.log(data)
-        if(result && result.code && result.code == 200){
-         
-$.log("互助码："+result.data.shareId+"\n")
-shareidArr.push(result.data.shareId)
-await $.wait(2000)
+    const MyRequest = PostRequest(`appid=china-joy&functionId=champion_game_prod&body={"apiMapping":"/api/homePage"}&t=${new Date().getTime()}&loginType=2`)
+    return new Promise((resolve) => {
+        $.post(MyRequest,async(error, response, data) =>{
+            try{
+                const result = JSON.parse(data)
+                if(logs)$.log(data)
+                if(result && result.code && result.code == 200){
+
+                    $.log("互助码："+result.data.shareId+"\n")
+                    shareidArr.push(result.data.shareId)
+                    await $.wait(2000)
 //await zy()
-        }else{
-           $.log("😫"+result.msg+"\n")
-        }
-        }catch(e) {
-          $.logErr(e, response);
-      } finally {
-        resolve();
-      } 
+                }else{
+                    $.log("😫"+result.msg+"\n")
+                }
+            }catch(e) {
+                $.logErr(e, response);
+            } finally {
+                resolve();
+            }
+        })
     })
-   })
-  }
-async function dosupport(shareid){
- const body = `appid=china-joy&functionId=champion_game_prod&body=%7B%22shareId%22%3A%22${shareid}%22%2C%22apiMapping%22%3A%22%2Fapi%2FdoSupport%22%7D&t=${new Date().getTime()}&loginType=2`
- const MyRequest = PostRequest(body)
- return new Promise((resolve) => {
-    $.post(MyRequest,async(error, response, data) =>{
-    try{
-        const result = JSON.parse(data)
-        if(logs)$.log(data)
-        if(result && result.code && result.code == 200 && result.data.status == 7){
-         console.log("助力成功\n")
-        }else if(result.data.status == 1){
-           $.log("😫助力失败,不能助力自己\n")
-        }else if(result.data.status == 3){
-           $.log("😫助力失败,已经助力过了\n")
-        }
-        }catch(e) {
-          $.logErr(e, response);
-      } finally {
-        resolve();
-      } 
-    })
-   })
-  }
-async function zy(){
-for(let i = 0; i < distinct(shareidArr).length;i++){
-console.log("\n开始内部助力"+shareidArr[i]+"")
-await dosupport(shareidArr[i])
-await $.wait(8000)
 }
+async function dosupport(shareid){
+    const body = `appid=china-joy&functionId=champion_game_prod&body=%7B%22shareId%22%3A%22${shareid}%22%2C%22apiMapping%22%3A%22%2Fapi%2FdoSupport%22%7D&t=${new Date().getTime()}&loginType=2`
+    const MyRequest = PostRequest(body)
+    return new Promise((resolve) => {
+        $.post(MyRequest,async(error, response, data) =>{
+            try{
+                const result = JSON.parse(data)
+                if(logs)$.log(data)
+                if(result && result.code && result.code == 200 && result.data.status == 7){
+                    console.log("助力成功\n")
+                }else if(result.data.status == 1){
+                    $.log("😫助力失败,不能助力自己\n")
+                }else if(result.data.status == 3){
+                    $.log("😫助力失败,已经助力过了\n")
+                }
+            }catch(e) {
+                $.logErr(e, response);
+            } finally {
+                resolve();
+            }
+        })
+    })
+}
+async function zy(){
+    for(let i = 0; i < distinct(shareidArr).length;i++){
+        console.log("\n开始内部助力"+shareidArr[i]+"")
+        await dosupport(shareidArr[i])
+        await $.wait(8000)
+    }
 }
 
 async function getlist(){
- const MyRequest = PostRequest(`appid=china-joy&functionId=champion_game_prod&body={"activityDate":${currentdate},"apiMapping":"/api/task/getTaskList"}&t=${new Date().getTime()}&loginType=2`)
- return new Promise((resolve) => {
-    $.post(MyRequest,async(error, response, data) =>{
-    try{
-        const result = JSON.parse(data)
-        if(logs)$.log(data)
-        if(result && result.code && result.code == 200){
-        $.TaskArr = result.data
-        for(var i in $.TaskArr){
-         //$.log($.TaskArr[i].parentId)
-         taskTypeArr.push($.TaskArr[i].parentId)
-         taskIdArr.push($.TaskArr[i].taskId)
-         //$.log($.TaskArr[i].taskId)
-     }
-        }else{
-           $.log("😫"+result.msg+"\n")
-        }
-        }catch(e) {
-          $.logErr(e, response);
-      } finally {
-        resolve();
-      } 
+    const MyRequest = PostRequest(`appid=china-joy&functionId=champion_game_prod&body={"activityDate":${currentdate},"apiMapping":"/api/task/getTaskList"}&t=${new Date().getTime()}&loginType=2`)
+    return new Promise((resolve) => {
+        $.post(MyRequest,async(error, response, data) =>{
+            try{
+                const result = JSON.parse(data)
+                if(logs)$.log(data)
+                if(result && result.code && result.code == 200){
+                    $.TaskArr = result.data
+                    for(var i in $.TaskArr){
+                        //$.log($.TaskArr[i].parentId)
+                        taskTypeArr.push($.TaskArr[i].parentId)
+                        taskIdArr.push($.TaskArr[i].taskId)
+                        //$.log($.TaskArr[i].taskId)
+                    }
+                }else{
+                    $.log("😫"+result.msg+"\n")
+                }
+            }catch(e) {
+                $.logErr(e, response);
+            } finally {
+                resolve();
+            }
+        })
     })
-   })
-  }
+}
 async function select(){
 //$.log(JSON.stringify(taskTypeArr))
-for(var i in distinct(taskTypeArr)){
+    for(var i in distinct(taskTypeArr)){
 
-   tasktype = taskTypeArr[i]
-   taskid = taskIdArr[i]
-   switch(tasktype){
-     case("BROWSE_TASK_0001"):
-       $.waits = 5
-       $.end = "/api/task/getReward"
-       break;
-     case("FOLLOW_CHANNEL_TASK_0001"):
-       $.waits = 2
-       $.end = "/api/task/getReward"
-       break;
-     case("FOLLOW_SHOP_TASK_0001"):
-       $.waits = 2
-       $.end = "/api/task/doTask"
-       break;
-     case("JOIN_SHOPPING_CART_0001"):
-       $.waits = 2
-       $.end = "/api/task/getReward"
-}
-await doTask()
-await $.wait($.waits*1000)
+        tasktype = taskTypeArr[i]
+        taskid = taskIdArr[i]
+        switch(tasktype){
+            case("BROWSE_TASK_0001"):
+                $.waits = 5
+                $.end = "/api/task/getReward"
+                break;
+            case("FOLLOW_CHANNEL_TASK_0001"):
+                $.waits = 2
+                $.end = "/api/task/getReward"
+                break;
+            case("FOLLOW_SHOP_TASK_0001"):
+                $.waits = 2
+                $.end = "/api/task/doTask"
+                break;
+            case("JOIN_SHOPPING_CART_0001"):
+                $.waits = 2
+                $.end = "/api/task/getReward"
+        }
+        await doTask()
+        await $.wait($.waits*1000)
     }
 }
 async function doTask(){
 //$.log(1111+tasktype)
- const body = `appid=china-joy&functionId=champion_game_prod&body={"parentId":"${tasktype}","taskId":"${taskid}","activityDate":"20211023","apiMapping":"${$.end}"}&t=${new Date().getTime()}&loginType=2`
+    const body = `appid=china-joy&functionId=champion_game_prod&body={"parentId":"${tasktype}","taskId":"${taskid}","activityDate":"${currentdate}","apiMapping":"${$.end}"}&t=${new Date().getTime()}&loginType=2`
 //$.log(body)
- const MyRequest = PostRequest(body)
- return new Promise((resolve) => {
-   $.post(MyRequest,async(error, response, data) =>{
-    try{
-        const result = JSON.parse(data)
-        $.log(data)
-        if(result && result.code && result.code == 200){
-           console.log("任务完成")
-   await $.wait(8000)
-        }else{
-           $.log(result.msg+"\n")
-        }
-        }catch(e) {
-          $.logErr(e, response);
-      } finally {
-        resolve();
-      } 
+    const MyRequest = PostRequest(body)
+    return new Promise((resolve) => {
+        $.post(MyRequest,async(error, response, data) =>{
+            try{
+                const result = JSON.parse(data)
+                $.log(data)
+                if(result && result.code && result.code == 200){
+                    console.log("任务完成")
+                    await $.wait(8000)
+                }else{
+                    $.log(result.msg+"\n")
+                }
+            }catch(e) {
+                $.logErr(e, response);
+            } finally {
+                resolve();
+            }
+        })
     })
-   })
-  }
-async function upload(){
- return new Promise((resolve) => {
-    let upload_url = {
-   		url: `https://pool.nz.lu/upload/PKv2/Phoneupload/11111`,
-   	}
-   $.get(upload_url,async(error, response, data) =>{
-    try{
-        const result = JSON.parse(data)
-        $.log(data)
-        if(result.code == 0)
-          $.log(result.msg+"观看"+result.amount+"\n")
-        }catch(e) {
-          $.logErr(e, response);
-      } finally {
-        resolve();
-      } 
+}
+async function lottery(){
+//$.log(1111+tasktype)
+    const body = `appid=china-joy&functionId=champion_game_prod&body={"activityDate":"${currentdate}","apiMapping":"/api/lottery/lottery"}&t=${new Date().getTime()}&loginType=2`
+//$.log(body)
+    const MyRequest = PostRequest(body)
+    return new Promise((resolve) => {
+        $.post(MyRequest,async(error, response, data) =>{
+            try{
+                const result = JSON.parse(data)
+                $.log(data)
+                if(result && result.code && result.code == 200){
+                    console.log("完成抽奖")
+                    await $.wait(8000)
+                }else{
+                    $.log(result.msg+"\n")
+                }
+            }catch(e) {
+                $.logErr(e, response);
+            } finally {
+                resolve();
+            }
+        })
     })
-   })
-  } 
+}
 
 //showmsg
 //boxjs设置tz=1，在12点<=20和23点>=40时间段通知，其余时间打印日志
 
 async function showmsg() {
     if (tz == 1) {
-      if ($.isNode()) {
-        if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
-          await notify.sendNotify($.name, message)
+        if ($.isNode()) {
+            if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+                await notify.sendNotify($.name, message)
+            } else {
+                $.log(message)
+            }
         } else {
-          $.log(message)
+            if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
+                $.msg(zhiyi, '', message)
+            } else {
+                $.log(message)
+            }
         }
-      } else {
-        if ((hour == 12 && minute <= 20) || (hour == 23 && minute >= 40)) {
-          $.msg(zhiyi, '', message)
-        } else {
-          $.log(message)
-        }
-      }
     } else {
-      $.log(message)
-  }
+        $.log(message)
+    }
 }
 function jsonParse(str) {
-  if (typeof str == "string") {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      console.log(e);
-      $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
-      return [];
+    if (typeof str == "string") {
+        try {
+            return JSON.parse(str);
+        } catch (e) {
+            console.log(e);
+            $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
+            return [];
+        }
     }
-  }
 }
 
 function distinct(array){
- return Array.from(new Set(array));
+    return Array.from(new Set(array));
 }
 
 function getNowFormatDate() {
-if ($.isNode()) {
-    var date = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 );
-}else{
-    var date = new Date;
-}
+    if ($.isNode()) {
+        var date = new Date( new Date().getTime() + 8 * 60 * 60 * 1000 );
+    }else{
+        var date = new Date;
+    }
     var seperator1 = "-";
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
@@ -357,9 +365,9 @@ if ($.isNode()) {
     if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
     }
-    
+
     newtime = new Date().getTime()
-    
+
     currentdate = JSON.stringify(year) + month + strDate;
     return currentdate;
 //$.log(currentdate)
