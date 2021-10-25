@@ -53,7 +53,7 @@ let tools = []
     }
 })()
 function openRedEnvelopeInteract(body = {}) {
-     body.linkId = "yMVR-_QKRd2Mq27xguJG-w"
+     body.linkId = "PFbUR7wtwUcQ860Sn8WRfw"
      return new Promise(resolve => {
          $.get({
              url: "https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body="+JSON.stringify(body)+"&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.6",
@@ -82,7 +82,7 @@ function openRedEnvelopeInteract(body = {}) {
  function redEnvelopeInteractHome() {
      return new Promise(resolve => {
          $.get({
-             url: "https://api.m.jd.com/?functionId=redEnvelopeInteractHome&body={%22linkId%22:%22yMVR-_QKRd2Mq27xguJG-w%22,%22redEnvelopeId%22:%22%22,%22inviter%22:%22%22,%22helpType%22:%22%22}&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.6",
+             url: "https://api.m.jd.com/?functionId=redEnvelopeInteractHome&body={%22linkId%22:%22PFbUR7wtwUcQ860Sn8WRfw%22,%22redEnvelopeId%22:%22%22,%22inviter%22:%22%22,%22helpType%22:%22%22}&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.6",
              headers: {
                  'Cookie': cookie,
                  'Accept': '*/*',
