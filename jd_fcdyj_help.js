@@ -49,7 +49,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
     $.needhelp = true
     $.canDraw = false
     $.canHelp = true;
-    $.linkid = "yMVR-_QKRd2Mq27xguJG-w"
+    $.linkid = "PFbUR7wtwUcQ860Sn8WRfw"
     //开红包查询
     for (let i = 0; i < cookiesArr.length && $.needhelp; i++) {
         cookie = cookiesArr[i];
@@ -314,8 +314,8 @@ function getAuthorShareCode() {
         }, async (err, resp, data) => {
             try {
                 if (err) {
-                    console.log(`${JSON.stringify(err)}`);
-                    console.log(`${$.name} API请求失败，请检查网路重试`);
+                    //console.log(`${JSON.stringify(err)}`);
+                    //console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     $.authorCode = JSON.parse(data);
                 }
@@ -329,7 +329,7 @@ function getAuthorShareCode() {
 }
 function taskUrl(function_id, body) {
     return {
-        url: `${JD_API_HOST}/?functionId=${function_id}&body=${encodeURIComponent(body)}&t=${Date.now()}&appid=activities_platform&clientVersion=3.5.2`,
+        url: `${JD_API_HOST}/?functionId=${function_id}&body=${encodeURIComponent(body)}&t=${Date.now()}&appid=activities_platform&clientVersion=3.5.6`,
         headers: {
             "Accept": "*/*",
             "Accept-Encoding": "gzip, deflate, br",
