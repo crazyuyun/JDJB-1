@@ -41,6 +41,11 @@ if ($.isNode()) {
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 
 !(async () => {
+	console.log('请自行打开京喜APP-惊喜欢乐砍')
+	console.log('活动入口:https://st.jingxi.com/sns/202103/20/jxhlk/list.html')
+    console.log('环境变量添加：export launchid="4559dd7b3f555c9260393166e0674875" ##你的邀请码')
+    console.log('环境变量添加：export first="false"')
+	console.log('请自行添加环境变量，否则将助力作者，账号太少的可以禁用"')
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
