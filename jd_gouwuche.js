@@ -1,3 +1,8 @@
+if (!["true"].includes(process.env.JD_LZCLIENT)) {
+    console.log("请设置环境变量JD_LZCLIENT为\"true\")来运行本脚本")
+	console.log('本脚本耗时巨长，请做好准备，有无豆子看脸。')
+    return
+}
 /*
 https://lzkj-isv.isvjcloud.com/wxgame/activity/8530275?activityId=
 */
