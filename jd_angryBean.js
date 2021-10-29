@@ -19,6 +19,8 @@ var init = [];
 var mode = $.isNode() ? (process.env.angryBeanMode ? process.env.angryBeanMode : "speed") : "priority";
 
 !(async () => {
+  console.log('添加环境变量export angryBeanPins="pin1@pin2" 填写pin的值，多个用@链接。')
+  console.log('添加环境变量export angryBeanMode="priority" priority(优先模式)、smart(智能模式)和speed(极速模式)。')
      if ($.isNode() && !pins) {
           console.log("请在环境变量中填写需要助力的账号")
           return
