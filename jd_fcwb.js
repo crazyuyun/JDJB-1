@@ -1,7 +1,7 @@
 /*
-京喜牧场
+发财挖宝
 更新时间：2021-10-30
-活动入口：极速版-发财挖宝助力
+活动入口：极速版-发财挖宝
 变量格式  多账号邀请码用@隔开
 export fcwbinviteCode=''
 export fcwbinviter=''
@@ -12,18 +12,18 @@ export fcwbroud=1  ##挖宝场次 1初级2中级3高级
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
-#京喜牧场
-20 1,9,16 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js, tag=京喜牧场, img-url=https://github.com/58xinian/icon/raw/master/jdgc.png, enabled=true
+#发财挖宝
+20 1,9,16 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js, tag=发财挖宝, img-url=https://github.com/58xinian/icon/raw/master/jdgc.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "20 1,9,16 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js,tag=京喜牧场
+cron "20 1,9,16 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js,tag=发财挖宝
 
 ===============Surge=================
-京喜牧场 = type=cron,cronexp="20 1,9,16 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js
+发财挖宝 = type=cron,cronexp="20 1,9,16 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js
 
 ============小火箭=========
-京喜牧场 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js, cronexpr="20 1,9,16 * * *", timeout=3600, enable=true
+发财挖宝 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fcwb.js, cronexpr="20 1,9,16 * * *", timeout=3600, enable=true
  */
 const $ = new Env('极速版-发财挖宝');
 const notify = $.isNode() ? require('./sendNotify') : '';
