@@ -38,7 +38,7 @@ $.inviteCodeList = [];
 $.inviteCodeList1 = [];
 let codeList = [];
 let cookiesArr = [];
-let helpnum = 7;
+let helpnum = 15;
 $.appId = 10028;
 $.helpCkList = [];
 if ($.isNode()) {
