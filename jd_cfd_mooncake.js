@@ -98,7 +98,7 @@ if ($.isNode()) {
         console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
         $.delcode = false
         await helpByStage($.newShareCodes[j])
-        await $.wait(2000)
+        await $.wait(4000)
         if ($.delcode) {
           $.newShareCodes.splice(j, 1)
           j--
@@ -136,7 +136,7 @@ async function cfd() {
     await composePearlState(4)
 
     //助力奖励
-    await $.wait(2000)
+    await $.wait(3000)
     await composePearlState(2)
 
     //合成月饼
@@ -145,7 +145,7 @@ async function cfd() {
     console.log(`合成月饼运行次数为：${count}\n`)
     let num = 0
     do {
-      await $.wait(2000)
+      await $.wait(4000)
       await composePearlState(3)
       num++
     } while (!$.stop && num < count)
@@ -202,7 +202,7 @@ async function composePearlState(type) {
                   console.log(`合成月饼：模拟操作${num}次`)
                   for (let v = 0; v < num; v++) {
                     console.log(`模拟操作进度：${v + 1}/${num}`)
-                    await $.wait(2000)
+                    await $.wait(3000)
                     await realTmReport(data.strMyShareId)
                     if (beacon.rbf) {
                       let size = 1
@@ -593,8 +593,14 @@ function taskUrl(function_path, body = '', dwEnv = 7) {
       "Referer": "https://st.jingxi.com/",
       "Cookie": cookie
     }
-  };
+  }
 }
+
+function getStk(url) {
+  let arr = url.split('&').map(x => x.replace(/.*\?/, "").replace(/=.*/, ""))
+  return encodeURIComponent(arr.filter(x => x).sort().join(','))
+}
+
 function randomString(e) {
   e = e || 32;
   let t = "0123456789abcdef", a = t.length, n = "";
