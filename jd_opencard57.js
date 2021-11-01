@@ -111,7 +111,7 @@ let activityCookie =''
   }
   $.shareUuidArr = []
   $.activityId = "dz2110100031064201"
-  $.shareUuid = "a47326152ab848498883a985e410eaf2"
+  $.shareUuid = "84773ceeef064f7990085f7a883658bb"
   console.log(`入口:\nhttps://lzdz4-isv.isvjcloud.com/dingzhi/syb/active/activity?activityId=${$.activityId}&shareUuid=${$.shareUuid}`)
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];

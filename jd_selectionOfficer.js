@@ -64,7 +64,7 @@ let invitelist = [];
             }
             console.log(`\n${$.UserName}去助力${$.oneInvite.user},助力码:${$.oneInvite.inviter_id}`);
             await takePostRequest('invite_friend');
-            await $.wait(1000);
+            await $.wait(3000);
         }
     }
 })()
