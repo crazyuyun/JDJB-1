@@ -98,7 +98,7 @@ async function querystorageroom() {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} querystorageroom API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           console.log(`\n卖贝壳`)
           let bags = []
           for (let key of Object.keys(data.Data.Office)) {
@@ -137,7 +137,7 @@ function sellgoods(body) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} sellgoods API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           if (data.iRet === 0) {
             console.log(`贝壳出售成功：获得${data.Data.ddwCoin}金币 ${data.Data.ddwMoney}财富\n`)
           } else {
@@ -162,7 +162,7 @@ async function queryshell() {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} queryshell API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           for (let key of Object.keys(data.Data.NormShell)) {
             let vo = data.Data.NormShell[key]
             for (let j = 0; j < vo.dwNum; j++) {
@@ -188,7 +188,7 @@ async function pickshell(body) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} pickshell API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           let dwName
           switch (data.Data.strFirstDesc) {
             case '亲爱的岛主~♥七夕快乐鸭♥':

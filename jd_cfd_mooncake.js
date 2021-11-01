@@ -166,10 +166,10 @@ async function composePearlState(type) {
         } else {
           switch (type) {
             case 1:
-              data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+              data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
               break
             case 2:
-              data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+              data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
               console.log(`领助力奖励`)
               if (data.iRet === 0) {
                 let helpNum = []
@@ -191,7 +191,7 @@ async function composePearlState(type) {
               }
               break
             case 3:
-              data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+              data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
               if (data.iRet === 0) {
                 console.log(`当前已合成${data.dwCurProgress}颗月饼，总计获得${data.ddwVirHb / 100}元红包`)
                 if (data.strDT) {
@@ -234,7 +234,7 @@ async function composePearlState(type) {
               }
               break
             case 4:
-              data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+              data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
               console.log(`每日抽奖`)
               if (data.iRet === 0) {
                 if (data.dayDrawInfo.dwIsDraw === 0) {
@@ -265,7 +265,7 @@ function realTmReport(strMyShareId) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} RealTmReport API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -283,7 +283,7 @@ function composePearlAddProcess(strDT, strLT) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} ComposePearlAddProcess API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -301,7 +301,7 @@ function getPearlDailyReward() {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} GetPearlDailyReward API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -319,7 +319,7 @@ function pearlDailyDraw(ddwSeasonStartTm, strToken) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} PearlDailyDraw API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           if (data.iRet === 0) {
             console.log(`抽奖成功：获得${data.strPrizeName || JSON.stringify(data)}\n`)
           } else {
@@ -342,7 +342,7 @@ function composePearlAward(strDT, type, size) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} ComposePearlAward API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           if (data.iRet === 0) {
             console.log(`模拟操作中奖：获得${data.ddwAwardHb / 100}元红包，总计获得${data.ddwVirHb / 100}元红包`)
           } else {
@@ -367,7 +367,7 @@ function pearlHelpDraw(ddwSeasonStartTm, dwUserId) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} PearlHelpDraw API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           if (data.iRet === 0) {
             console.log(`领取助力奖励成功：获得${data.StagePrizeInfo.ddwAwardHb / 100}元红包，总计获得${data.StagePrizeInfo.ddwVirHb / 100}元红包`)
           } else {
@@ -392,7 +392,7 @@ function helpByStage(shareCodes) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} helpbystage API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           if (data.iRet === 0 || data.sErrMsg === 'success') {
             console.log(`助力成功：获得${data.GuestPrizeInfo.strPrizeName}`)
           } else if (data.iRet === 2235 || data.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
@@ -465,7 +465,7 @@ function getUserInfo(showInvite = true) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} QueryUserInfo API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           const {
             ddwRichBalance,
             ddwCoinBalance,
@@ -537,7 +537,7 @@ async function init(function_path, body) {
         } else {
           if (function_path == "user/SetMark") opId = 23
           if (function_path == "user/guideuser") opId = 27
-          data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
+          data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
           contents = `1771|${opId}|${data.iRet}|0|${data.sErrMsg || 0}`
           await biz(contents)
         }
