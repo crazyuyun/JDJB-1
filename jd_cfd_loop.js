@@ -249,7 +249,7 @@ function taskUrl(function_path, body = '', dwEnv = 7) {
       "Referer": "https://st.jingxi.com/",
       "Cookie": cookie
     }
-  }
+  };
 }
 
 function getStk(url) {
