@@ -79,7 +79,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         console.log(`账号 ${$.index} ${$.UserName} 开始给 ${$.redPacketId[j]} 进行助力`)
         $.max = false;
         await jinli_h5assist($.redPacketId[j]);
-        await $.wait(9000)
+        await $.wait(15000)
         if ($.max) {
           $.redPacketId.splice(j, 1)
           j--
@@ -93,7 +93,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         console.log(`\n账号 ${$.index} ${$.UserName} 开始给作者 ${$.authorMyShareIds[j]} 进行助力`)
         $.max = false;
         await jinli_h5assist($.authorMyShareIds[j]);
-        await $.wait(9000)
+        await $.wait(15000)
         if ($.max) {
           $.authorMyShareIds.splice(j, 1)
           j--
