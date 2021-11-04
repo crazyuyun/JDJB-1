@@ -6,7 +6,10 @@
 # export JD_COOKIE="第1个cookie&第2个cookie"
 # export kois=" 第1个cookie的pin & 第2个cookie的pin "
 # 11/4 11:23 增加自动开红包
-
+'''
+cron: 15 2 * * * jd_angryKoi.py
+new Env('锦鲤红包助力');
+'''
 
 import os,json,random,time,re,string,functools,asyncio
 import sys
