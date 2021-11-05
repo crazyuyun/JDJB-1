@@ -74,7 +74,7 @@ const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
         continue
       }
       await jdGlobal()
-      await $.wait(2 * 1000)
+      await $.wait(10 * 1000)
     }
   }
 })()
@@ -471,6 +471,7 @@ async function startItem(activeId, activeType) {
                   videoBrowsing = activeType === 1 ? 5 : 10
                 console.log(`【${taskCompletionProgress + 1}/${taskCompletionLimit}】浏览商品任务记录成功，等待${videoBrowsing}秒`)
                 await $.wait(videoBrowsing * 1000)
+				await $.wait(3000);
                 await endItem(data.data.uuid, activeType, activeId, activeType === 3 ? videoBrowsing : "")
               } else {
                 console.log(`${$.taskName}任务已达上限`)
