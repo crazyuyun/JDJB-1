@@ -1484,6 +1484,7 @@ function taskListUrl(function_path, body = '', bizCode = 'jxbfd') {
       "Host": "m.jingxi.com",
       "Accept": "*/*",
       "Accept-Encoding": "gzip, deflate, br",
+      "User-Agent": UA,
       "Accept-Language": "zh-CN,zh-Hans;q=0.9",
       "Referer": "https://st.jingxi.com/",
       "Cookie": cookie
@@ -1545,7 +1546,7 @@ function readShareCode() {
         resolve(data);
       }
     })
-    await $.wait(10000);
+    await $.wait(30 * 1000);
     resolve()
   })
 }
