@@ -5,7 +5,7 @@ const $ = new Env("京东饭粒");
 每天60豆小毛，爱要不要
 
 cron:
-46 9 * * * jd_fanli.py
+46 0 * * * jd_fanli.py
 """
 
 import sys
