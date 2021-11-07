@@ -95,24 +95,6 @@ async function jdFruit() {
     try {
         await initForFarm();
         if ($.farmInfo.farmUserPro) {
-            // ***************************
-            // 报告运行次数
-            $.get({
-                    url: `https://cdn.nz.lu/api/runTimes?activityId=farm&sharecode=${$.farmInfo.farmUserPro.shareCode}`,
-                    headers: {
-                        'Host': 'api.jdsharecode.xyz'
-                    },
-                    timeout: 10000
-                }, (err, resp, data) => {
-                    if (err) {
-                        console.log('上报失败', err)
-                    } else {
-                        if (data === '1' || data === '0') {
-                            console.log('上报成功')
-                        }
-                    }
-                })
-                // ***************************
                 // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
             message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
@@ -615,7 +597,16 @@ async function turntableFarm() {
 async function getExtraAward() {
     await masterHelpTaskInitForFarm();
     if ($.masterHelpResult.code === '0') {
+    try {
+      for (let index = 0; index < 5; index++) {
+        await $.get(taskUrl("receiveStageEnergy", '%7B%22version%22%3A14%2C%22channel%22%3A1%2C%22babelChannel%22%3A%22120%22%7D&appid=wh5'), function (err, resp, data) {
+          console.log('领助力奖励:' + resp.body);
+        })
+        await $.wait(2000);
+      }
+    } catch (error) { }
         if ($.masterHelpResult.masterHelpPeoples && $.masterHelpResult.masterHelpPeoples.length >= 5) {
+      console.log("新旧领取奖励都来一下")
             // 已有五人助力。领取助力后的奖励
             if (!$.masterHelpResult.masterGotFinal) {
                 await masterGotFinishedTaskForFarm();
@@ -1174,12 +1165,12 @@ async function gotThreeMealForFarm() {
  * type为1时, 领取浏览任务奖励
  */
 async function browseAdTaskForFarm(advertId, type) {
-    const functionId = arguments.callee.name.toString();
-    if (type === 0) {
-        $.browseResult = await request(functionId, { advertId, type });
-    } else if (type === 1) {
-        $.browseRwardResult = await request(functionId, { advertId, type });
-    }
+  const functionId = arguments.callee.name.toString();
+  if (type === 0) {
+    $.browseResult = await request(functionId, { advertId, type, "version": 14, "channel": 1, "babelChannel": "45" });
+  } else if (type === 1) {
+    $.browseRwardResult = await request(functionId, { advertId, type, "version": 14, "channel": 1, "babelChannel": "45" });
+  }
 }
 // 被水滴砸中API
 async function gotWaterGoalTaskForFarm() {
@@ -1197,7 +1188,7 @@ async function initForFarm() {
     return new Promise(resolve => {
         const option = {
             url: `${JD_API_HOST}?functionId=initForFarm`,
-            body: `body=${escape(JSON.stringify({"version":4}))}&appid=wh5&clientVersion=9.1.0`,
+      body: `body=${escape(JSON.stringify({ "version":14}))}&appid=wh5&clientVersion=9.1.0`,
             headers: {
                 "accept": "*/*",
                 "accept-encoding": "gzip, deflate, br",
@@ -1239,7 +1230,7 @@ async function initForFarm() {
 async function taskInitForFarm() {
     console.log('\n初始化任务列表')
     const functionId = arguments.callee.name.toString();
-    $.farmTask = await request(functionId, { "version": 14, "channel": 1, "babelChannel": "120" });
+    $.farmTask = await request(functionId, { "version": 14, "channel": 1, "babelChannel": "45" });
 }
 //获取好友列表API
 async function friendListInitForFarm() {
@@ -1285,27 +1276,27 @@ function timeFormat(time) {
 }
 
 function readShareCode() {
-    return new Promise(async resolve => {
-        $.get({ url: `https://cdn.nz.lu/api/farm/${randomCount}`, headers: { 'Host': 'api.jdsharecode.xyz' }, timeout: 10000 }, (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    if (data) {
-                        console.log(`随机取个${randomCount}码放到您固定的互助码后面(不影响已有固定互助)`)
-                        data = JSON.parse(data);
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-        await $.wait(10000);
-        resolve()
+  return new Promise(async resolve => {
+    $.get({url: `}/`, timeout: 10000,}, (err, resp, data) => {
+      try {
+        if (err) {
+        // console.log(`${JSON.stringify(err)}`)
+        // console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (data) {
+       //   console.log(`随机取个${randomCount}码放到您固定的互助码后面(不影响已有固定互助)`)
+            data = JSON.parse(data);
+          }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
     })
+    await $.wait(10000);
+    resolve()
+  })
 }
 
 function shareCodesFormat() {
@@ -1315,7 +1306,7 @@ function shareCodesFormat() {
         if ($.shareCodesArr[$.index - 1]) {
             newShareCodes = $.shareCodesArr[$.index - 1].split('@');
         } else {
-            console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+            //console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
             const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
             newShareCodes = shareCodes[tempIndex].split('@');
         }
