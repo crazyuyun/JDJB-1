@@ -4,19 +4,18 @@
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
-#5魔方兑换
-40 0,17 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js, tag=5魔方兑换, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
+#京东饭粒
+40 0,17 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js, tag=京东饭粒, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jxcfd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "40 0,17 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js,tag=5魔方兑换
+cron "40 0,17 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js,tag=京东饭粒
 
 ===============Surge=================
-5魔方兑换 = type=cron,cronexp="40 0,17 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js
+京东饭粒 = type=cron,cronexp="40 0,17 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js
 
 ============小火箭=========
-5魔方兑换 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js, cronexpr="40 0,17 * * *", timeout=3600, enable=true
- * cron "17 8,18 * * *" jd_fanli.js
+京东饭粒 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_fanli.js, cronexpr="40 0,17 * * *", timeout=3600, enable=true
  */
 
 const $ = new Env('京东饭粒');
