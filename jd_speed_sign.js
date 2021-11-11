@@ -122,70 +122,70 @@ function showMsg() {
   })
 }
 
-async function signInit() {
-  return new Promise(resolve => {
-    $.get(taskUrl('speedSignInit', {
-      "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
-      "kernelPlatform": "RN",
-    }),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${JSON.stringify(err)}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data);
-              if (data.data && data.data.cashDrawAmount >= 8) {
-                console.log(`京东账号${$.index} ${$.nickName || $.UserName}已满足兑换条件\n`)
-                if (process.env.JS_EXCHANGE && process.env.JS_EXCHANGE === 'true') {
-                  console.log(`【注意】您已设置自动兑换红包，请尽快使用\n`)
-                  await cashout()
-                } else {
-                  console.log(`【注意】京东极速版签到领红包活动将于9月7日下线\n活动下线后余额会清零，请尽快兑换使用\n如需自动兑换，请添加变量名称：JS_EXCHANGE，变量值填true`)
-                }
-              }
-            }
-          }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
-  })
-}
+// async function signInit() {
+//   return new Promise(resolve => {
+//     $.get(taskUrl('speedSignInit', {
+//       "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
+//       "kernelPlatform": "RN",
+//     }),
+//       async (err, resp, data) => {
+//         try {
+//           if (err) {
+//             console.log(`${JSON.stringify(err)}`)
+//             console.log(`${$.name} API请求失败，请检查网路重试`)
+//           } else {
+//             if (safeGet(data)) {
+//               data = JSON.parse(data);
+//               if (data.data && data.data.cashDrawAmount >= 8) {
+//                 console.log(`京东账号${$.index} ${$.nickName || $.UserName}已满足兑换条件\n`)
+//                 if (process.env.JS_EXCHANGE && process.env.JS_EXCHANGE === 'true') {
+//                   console.log(`【注意】您已设置自动兑换红包，请尽快使用\n`)
+//                   await cashout()
+//                 } else {
+//                   console.log(`【注意】京东极速版签到领红包活动将于9月7日下线\n活动下线后余额会清零，请尽快兑换使用\n如需自动兑换，请添加变量名称：JS_EXCHANGE，变量值填true`)
+//                 }
+//               }
+//             }
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp)
+//         } finally {
+//           resolve(data);
+//         }
+//       })
+//   })
+// }
 
-async function sign() {
-  return new Promise(resolve => {
-    $.get(taskUrl('speedSign', {
-      "kernelPlatform": "RN",
-      "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
-      "noWaitPrize": "false"
-    }),
-      async (err, resp, data) => {
-        try {
-          if (err) {
-            console.log(`${JSON.stringify(err)}`)
-            console.log(`${$.name} API请求失败，请检查网路重试`)
-          } else {
-            if (safeGet(data)) {
-              data = JSON.parse(data);
-              if (data.subCode === 0) {
-                console.log(`签到获得${data.data.signAmount}现金，共计获得${data.data.cashDrawAmount}`)
-              } else {
-                console.log(`签到失败，${data.msg}`)
-              }
-            }
-          }
-        } catch (e) {
-          $.logErr(e, resp)
-        } finally {
-          resolve(data);
-        }
-      })
-  })
-}
+// async function sign() {
+//   return new Promise(resolve => {
+//     $.get(taskUrl('speedSign', {
+//       "kernelPlatform": "RN",
+//       "activityId": "8a8fabf3cccb417f8e691b6774938bc2",
+//       "noWaitPrize": "false"
+//     }),
+//       async (err, resp, data) => {
+//         try {
+//           if (err) {
+//             console.log(`${JSON.stringify(err)}`)
+//             console.log(`${$.name} API请求失败，请检查网路重试`)
+//           } else {
+//             if (safeGet(data)) {
+//               data = JSON.parse(data);
+//               if (data.subCode === 0) {
+//                 console.log(`签到获得${data.data.signAmount}现金，共计获得${data.data.cashDrawAmount}`)
+//               } else {
+//                 console.log(`签到失败，${data.msg}`)
+//               }
+//             }
+//           }
+//         } catch (e) {
+//           $.logErr(e, resp)
+//         } finally {
+//           resolve(data);
+//         }
+//       })
+//   })
+// }
 
 async function cashout() {
   return new Promise(resolve => {
@@ -471,7 +471,7 @@ async function startItem(activeId, activeType) {
                   videoBrowsing = activeType === 1 ? 5 : 10
                 console.log(`【${taskCompletionProgress + 1}/${taskCompletionLimit}】浏览商品任务记录成功，等待${videoBrowsing}秒`)
                 await $.wait(videoBrowsing * 1000)
-				await $.wait(3000);
+                await $.wait(3000)
                 await endItem(data.data.uuid, activeType, activeId, activeType === 3 ? videoBrowsing : "")
               } else {
                 console.log(`${$.taskName}任务已达上限`)
