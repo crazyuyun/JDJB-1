@@ -110,6 +110,7 @@ $.shareuuid = ["bf3ffb1c973a49acbac4983ac15162f3", "be5c05485b624d69b2bb1acee71f
                 }
                 await getinfo()
                 await $.wait(5000)
+                if ($.score < 50000) {
                 let th = $.isNode() ? (process.env.CowKeep ? process.env.CowKeep : 1000000) : ($.getdata("CowKeep") ? $.getdata("CowKeep") : 1000000)
                 th = Math.max(100,th)
                 console.log(`【准备喂食,当前设置食物>${th}则喂食物,可通过设置环境变量CowKeep进行更改,需要大于100】`)
@@ -120,6 +121,9 @@ $.shareuuid = ["bf3ffb1c973a49acbac4983ac15162f3", "be5c05485b624d69b2bb1acee71f
                     // await getinfo2()
                     // await $.wait(3000)
                 }
+            } else {
+                console.log(`\n【已升至最高等级，无需喂食，攒饲料兑换奖品吧】\n`)
+            }
                 for (k = 0; k < $.drawchance; k++) {
                     await draw()
                     await $.wait(10000)
