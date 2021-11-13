@@ -1,8 +1,3 @@
-if (!["true"].includes(process.env.FCWB)) {
-    console.log("请设置环境变量FCWB为\"true\")来运行本脚本")
-	console.log('极速版现在黑号厉害，愿意运行就添加环境变量吧！')
-    return
-}
 /*
 发财挖宝
 更新时间：2021-10-30
