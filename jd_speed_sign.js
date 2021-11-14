@@ -41,7 +41,7 @@ if ($.isNode()) {
 }
 
 const JD_API_HOST = 'https://api.m.jd.com/', actCode = 'visa-card-001';
-
+let llAPIError = false
 
 !(async () => {
   if (!cookiesArr[0]) {
@@ -316,6 +316,10 @@ async function taskList() {
                 } else {
                   console.log(`${task.taskInfo.mainTitle}已完成`)
                 }
+                if (llAPIError){
+                  console.error('API请求失败，停止执行')
+                  break
+                }
               }
             }
           }
@@ -338,6 +342,7 @@ async function doTask(taskId) {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
+          llAPIError = true
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
@@ -433,6 +438,7 @@ async function queryItem(activeType = 1) {
             } else {
               console.log(`商品任务开启失败，${data.message}`)
               $.canStartNewItem = false
+              llAPIError = true
             }
           }
         }
@@ -461,6 +467,8 @@ async function startItem(activeId, activeType) {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
+          llAPIError = true
+          $.canStartNewItem = false
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
