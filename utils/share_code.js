@@ -1,7 +1,7 @@
 var allShareCodes = [];
 var removedShareCodes = [];
-var chetou_number = process.env.CHETOU_NUMBER ? process.env.CHETOU_NUMBER : 7
-var fair_mode = process.env.FAIR_MODE ? true : true
+var chetou_number = process.env.CHETOU_NUMBER ? process.env.CHETOU_NUMBER : 0
+var fair_mode = process.env.FAIR_MODE ? true : false
 
 exports.ModCK = function(cks) {
     console.log(`您${fair_mode ? "有" : "没有"}设置雨露均沾模式。`)
