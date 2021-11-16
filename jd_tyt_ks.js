@@ -9,7 +9,7 @@ export tytpacketId=""
 助力逻辑：优先助力互助码变量
 入口-极速版-推推赚大钱  5元无门槛卷 大概需要50人助力
 */
-const $ = new Env('柠檬推一推');
+const $ = new Env('推推赚大钱-快速');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -51,7 +51,7 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
             $.nickName = '';
             message = '';
             await TotalBean();
-            //   console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
+            console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
             if (!$.isLogin) {
                 $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {
                     "open-url": "https://bean.m.jd.com/bean/signIndex.action"
