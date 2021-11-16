@@ -181,7 +181,7 @@ async function pasture() {
         let vo = $.taskList[key]
         if (vo.taskName === "邀请好友助力养鸡" || vo.taskType === 4) {
           if (vo.completedTimes >= vo.configTargetTimes) {
-            console.log(`助力已满，不上传助力码`)
+            //console.log(`助力已满，不上传助力码`)
           } else {
             $.inviteCodeList.push($.homeInfo.sharekey);
             await $.wait(2000)
