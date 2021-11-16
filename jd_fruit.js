@@ -44,7 +44,7 @@ let message = '',
     subTitle = '',
     option = {},
     isFruitFinished = false;
-const retainWater = 100; //保留水滴大于多少g,默认100g;
+const retainWater = $.isNode() ? (process.env.retainWater ? process.env.retainWater : 100) : ($.getdata('retainWater') ? $.getdata('retainWater') : 100); //保留水滴大于多少g,默认100g;
 let jdNotify = false; //是否关闭通知，false打开通知推送，true关闭通知推送
 let jdFruitBeanCard = false; //农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
 let randomCount = $.isNode() ? 20 : 5;
@@ -56,6 +56,31 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
+    }
+    console.log('开始收集您的互助码，用于账号内部互助，请稍等...');
+    for (let i = 0; i < cookiesArr.length; i++) {
+        if (cookiesArr[i]) {
+            cookie = cookiesArr[i];
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+            $.index = i + 1;
+            $.isLogin = true;
+            $.nickName = '';
+            await TotalBean();
+            console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+            if (!$.isLogin) {
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+
+                if ($.isNode()) {
+                    await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                }
+                continue
+            }
+            message = '';
+            subTitle = '';
+            option = {};
+            $.retry = 0;
+            await collect();
+        }
     }
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
@@ -77,6 +102,7 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
             message = '';
             subTitle = '';
             option = {};
+            $.retry = 0;
             //   await shareCodesFormat();
             await jdFruit();
         }
@@ -135,7 +161,12 @@ async function jdFruit() {
             await predictionFruit(); //预测水果成熟时间
         } else {
             console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
-            message = `【数据异常】请手动登录京东app查看此账号${$.name}是否正常`;
+            if ($.retry < 3) {
+                $.retry++
+                    console.log(`等待10秒后重试,第:${$.retry}次`);
+                await $.wait(10000);
+                await jdFruit();
+            }
         }
     } catch (e) {
         console.log(`任务执行异常，请检查执行日志 ‼️‼️`);
@@ -675,6 +706,7 @@ async function getExtraAward() {
 //助力好友
 async function masterHelpShare() {
     console.log('开始助力好友')
+    await initForFarm();
     let salveHelpAddWater = 0;
     let remainTimes = 3; //今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
     let helpSuccessPeoples = ''; //成功助力好友
@@ -682,6 +714,10 @@ async function masterHelpShare() {
     for (let code of sc.getShareCodes()) {
         console.log(`开始助力京东账号${$.index} - ${$.nickName || $.UserName}的好友: ${code}`);
         if (!code) continue;
+        if (!$.farmInfo.farmUserPro) {
+            console.log('未种植,跳过助力\n')
+            continue
+        }
         if (code === $.farmInfo.farmUserPro.shareCode) {
             console.log('不能为自己助力哦，跳过自己的shareCode\n')
             continue
@@ -992,6 +1028,19 @@ async function duck() {
             console.log(`小鸭子游戏达到上限`)
             break;
         }
+    }
+}
+async function collect() {
+    try {
+        await initForFarm();
+        if ($.farmInfo.farmUserPro) {
+            console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
+            jdFruitShareArr.push($.farmInfo.farmUserPro.shareCode)
+        } else {
+            console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
+        }
+    } catch (e) {
+        $.logErr(e);
     }
 }
 // ========================API调用接口========================
