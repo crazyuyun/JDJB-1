@@ -98,16 +98,16 @@ function tythelp() {
                 data = JSON.parse(data);
 
                 if (data.code == 0) {
-                    // console.log("帮砍：" + data.data.amount)
+                     console.log("帮砍：" + data.data.amount)
 
                 } else if (data.msg.indexOf("完成") != -1) {
                     console.log("已完成砍价")
                     status = 1
                 } else {
-                    // if (data.msg !== "need verify"){
-                    //     console.log(data.msg)
-                    // }
-                    // console.log(data.msg)
+                     if (data.msg !== "need verify"){
+                         console.log(data.msg)
+                     }
+                     console.log(data.msg)
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -162,8 +162,8 @@ async function TotalBean() {
         $.post(options, (err, resp, data) => {
             try {
                 if (err) {
-                    // console.log(`${JSON.stringify(err)}`)
-                    // console.log(`${$.name} API请求失败，请检查网路重试`)
+                     console.log(`${JSON.stringify(err)}`)
+                     console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
                     if (data) {
                         data = JSON.parse(data);
@@ -177,7 +177,7 @@ async function TotalBean() {
                             $.nickName = $.UserName;
                         }
                     } else {
-                        //     console.log(`京东服务器返回空数据`)
+                             console.log(`京东服务器返回空数据`)
                     }
                 }
             } catch (e) {
@@ -194,8 +194,8 @@ async function safeGet(data) {
             return true;
         }
     } catch (e) {
-        //    console.log(e);
-        //    console.log(`京东服务器访问数据为空，请检查自身设备网络情况`);
+            console.log(e);
+            console.log(`京东服务器访问数据为空，请检查自身设备网络情况`);
         return false;
     }
 }
@@ -205,7 +205,7 @@ function jsonParse(str) {
         try {
             return JSON.parse(str);
         } catch (e) {
-            //   console.log(e);
+               console.log(e);
             $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
             return [];
         }
