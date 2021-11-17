@@ -24,7 +24,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
 let cookiesArr = [];
 let shareCodes = [];
-let authorCodes = [];
+let rcsArr = [];
 let coin = 0;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
@@ -74,6 +74,10 @@ if ($.isNode()) {
         $.canHelp = true;
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         console.log(`====开始账号${$.UserName}===助力`)
+        if (rcsArr.includes($.UserName) > 0) {
+            console.log("不让助力，休息会！");
+            break;
+        }
         for (let j = 0; j < shareCodes.length; j++) {
             if (!$.canHelp) {
                 break;
@@ -87,6 +91,10 @@ if ($.isNode()) {
         $.cookie = cookiesArr[i];
         $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
         console.log(`====开始账号${$.UserName}===`)
+        if (rcsArr.includes($.UserName) > 0) {
+            console.log("不让做任务，休息会！");
+            continue;
+        }
         await drawUserTask();
     }
 
@@ -143,6 +151,11 @@ async function help(sharecode) {
             case 30009:
                 console.log('已助力过！');
                 break;
+            case 60009:
+                console.log('不让助力，先休息会！');
+                rcsArr.push($.UserName);
+                $.canHelp = false;
+                break;
             case 0:
                 console.log('助力成功');
                 break;
@@ -162,26 +175,28 @@ async function drawUserTask() {
     if (res.datas) {
         for (let t of res.datas) {
             if (t.state !== 2)
-                tasks.push(t.taskId)
+                tasks.push(t.taskid ? t.taskid : t.taskId)
         }
     } else {
         res = await api('task/QueryPgTaskCfg', 'sceneval', {})
         if (tasks.length === 0) {
             for (let t of res.data.tasks) {
-                tasks.push(t.taskId)
+                tasks.push(t.taskid ? t.taskid : t.taskId)
             }
         }
     }
-    console.log('tasks:', tasks && tasks.length)
+    console.log(`总任务数：${res.datas && res.datas.length}   本次执行任务数: ${tasks && tasks.length}`)
     await $.wait(2000)
 
     res = await api('task/QueryPgTaskCfg', 'sceneval', {})
     for (let t of res.data.tasks) {
-        if (tasks.includes(t.taskId)) {
-            console.log(t.taskName)
-            res = await api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskId })
-            await $.wait(1000)
-            res = await api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskId })
+        if (tasks.includes(t.taskid ? t.taskid : t.taskId)) {
+            let sleep = (t.param7 ? t.param7 : 2) * 1000 + (Math.random() * 5 + 1) * 1000;
+            console.log(`任务名：${t.taskName}    浏览时间：${sleep / 1000} s`)
+            res = await api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskid ? t.taskid : t.taskId })
+            await $.wait(sleep)
+            res = await api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskid ? t.taskid : t.taskId })
+            // console.log(`${JSON.stringify(res)}`)
             await $.wait(2000)
 
         }
@@ -214,6 +229,11 @@ async function UserSignNew() {
     let params = { source: '' };
     let res = await api(fn, stk, params);
     if (res) {
+        if (res.retCode == 60009) {
+            console.log('风控用户，不让玩')
+            rcsArr.push($.UserName);
+            return res;
+        }
         console.log('签到', res.retCode == 0 ? "success" : "fail")
         console.log('助力码', res.data.token)
         shareCodes.push(res.data.token);

@@ -60,7 +60,7 @@ let token ='';
     await pasture();
     await $.wait(2000);
   }
-  if (flag_hb) {
+  if (process.env.JXMC_RP != 'false' && flag_hb) {
   console.log('\n##################开始账号内互助(红包)#################\n');
   await getShareCode('jxmc_hb.json')
   $.inviteCodeList_hb = [...($.inviteCodeList_hb || []), ...($.shareCode || [])]
