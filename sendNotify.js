@@ -136,7 +136,7 @@ const {
 	getEnvs
 } = require('./ql');
 const fs = require('fs');
-let strCKFile = './CKName_cache.json';
+let strCKFile = '/ql/scripts/CKName_cache.json';
 let Fileexists = fs.existsSync(strCKFile);
 let TempCK = [];
 if (Fileexists) {
