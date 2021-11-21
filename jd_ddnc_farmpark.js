@@ -85,6 +85,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
                     await browseAward(task.topResource.task.advertId, index, task.type)
                 }
             }
+            console.log(`\n需要手动开启活动，活动入口：东东农场->水车\n`)
 			await collect()
         }
     }
