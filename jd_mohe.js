@@ -90,6 +90,9 @@ $.shareId = [];
                 console.log(`次数已用完，跳出助力`)
                 break
             }
+            } else if (res && res['code'] === 1002) {
+                console.log(`账号火爆，跳出助力`)
+                break
             await $.wait(2000)
         }
     }
