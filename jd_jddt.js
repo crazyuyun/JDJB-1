@@ -38,7 +38,7 @@ const JD_API_HOST = 'https://hserver.moxigame.cn';
 
   console.log('活动入口：京东APP ==> 我的 ==> 签到领豆 ==> 兑权益 ==> 京豆答题\n' +
       '活动入口地址：https://prodev.m.jd.com/mall/active/2tqdREcm3YLC8pbNPdvofdAwd8te/index.html?tttparams= \n' +
-      '活动时间：2021-05-24至2021-06-20\n' +
+      '活动时间：2021-10-21至2021-12-31\n' +
       '暂时不知道最多能答几次题先只答一次完成任务，答题答案随机选择'
       );
 
