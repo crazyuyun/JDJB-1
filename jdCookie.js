@@ -97,6 +97,5 @@ let envName = process.env.ShareCodeEnvName
 if (nameConfig && envName) {
   SetShareCodesEnv(nameConfig, envName)
 } else {
-  console.debug(`友情提示：当前未设置 ShareCodeConfigName 或 ShareCodeEnvName 环境变量，将不会尝试在nodejs中生成互助码的环境变量。ps: 两个值目前分别为 ${nameConfig} ${envName}`)
-  console.debug(`如果当前活动并没有互助内容，请无视上面这句话`)
+  console.debug(`友情提示：脚本运行正常`)
 }
