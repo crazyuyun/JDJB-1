@@ -85,8 +85,6 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
                     await browseAward(task.topResource.task.advertId, index, task.type)
                 }
             }
-            console.log(`\n需要手动开启活动，活动入口：东东农场->水车\n`)
-			await collect()
         }
     }
 
@@ -164,69 +162,6 @@ function parkInit() {
                         $.taskList = data.buildings.filter(x => x.topResource.task)
                     } else {
                         console.log("获取任务列表失败,你不会是黑鬼吧")
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
-            }
-        });
-    });
-}
-function collect() {
-    return new Promise(async (resolve) => {
-        const options = taskUrl("collect_Init", `{"channel":1}`)
-        $.post(options, async (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`);
-                    console.log(`${$.name} API请求失败，请检查网路重试`);
-                } else {
-                    data = JSON.parse(data);
-                    if (data.success) {
-                        if (data.result) {
-                            for (let item of data.result.medalInfo) {
-                                if (item.status == 2) {
-                                    console.log(`【${item.medalName}】勋章未点亮`);
-                                }
-                                else if (item.status == 4) {
-                                    console.log(`【${item.medalName}】勋章已点亮`);
-                                }
-                                else if (item.status == 3) {
-                                    console.log(`【${item.medalName}】勋章可点亮`);
-                                    await collect_taskAward(item.taskType)
-                                }
-                            }
-                        }
-                    } else {
-                        console.log(`\n获取列表失败，${JSON.stringify(data)}`)
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
-            }
-        });
-    });
-}
-
-function collect_taskAward(type) {
-    return new Promise(async (resolve) => {
-        const options = taskUrl("collect_taskAward", `{"taskType":${type}}`)
-        $.post(options, async (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`);
-                    console.log(`${$.name} API请求失败，请检查网路重试`);
-                } else {
-                    data = JSON.parse(data);
-                    if (data.success) {
-                        if (data.result.awardStatus == true)
-                            console.log(`【${item.medalName}】点亮成功`)
-                    } else {
-                        console.log(`\n点亮勋章失败：${JSON.stringify(data)}`)
                     }
                 }
             } catch (e) {
