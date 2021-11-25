@@ -13,6 +13,12 @@ ql repo https://ghproxy.com/github.com/KingRan/JDJB.git "jd_|jx_|jdCookie" "acti
 
 ql repo https://github.com/KingRan/JDJB.git "jd_|jx_|jdCookie" "activity|backUp" "^jd[^_]|USER|utils|function|sign|sendNotify|ql|JDJR"
 
+
+1、搬运整理，感谢所有原作者。
+
+2、个人学习目的，请下载后24小时内删除下载的代码。
+
+
 1.出现这种错误：
 
 Cannot find module 'xxxx'
