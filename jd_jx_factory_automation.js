@@ -1,5 +1,13 @@
-//20 * * * * m_jx_factory_automation.js
+//20 * * * * jd_jx_factory_automation.js
 //其他活动自动化稍后再写
+/*
+[task_local]
+京喜工厂自动化
+20 7,19 * * * jd_jx_factory_automation.js, tag=京喜工厂自动化, enabled=true
+================Loon==============
+[Script]
+cron "20 7,19 * * *" script-path=jd_jx_factory_automation.js,tag=京喜工厂自动化
+*/
 const {Env} = require('./utils/magic');
 const $ = new Env('M京喜工厂自动化');
 let commodityName = process.env.COMMODITY_NAME ? process.env.COMMODITY_NAME

@@ -1,4 +1,11 @@
-//28 19 * * * m_jd_yfcoupon.js
+/*
+[task_local]
+运费券提醒
+28 19 * * * jd_yfcoupon.js, tag=运费券提醒, enabled=true
+================Loon==============
+[Script]
+cron "28 19 * * *" script-path=jd_yfcoupon.js,tag=运费券提醒
+*/
 const {Env} = require('./utils/magic');
 const $ = new Env('M运费券提醒');
 let yfcoupon_days = process.env.YFCOUPON_DAYS ? process.env.YFCOUPON_DAYS * 1

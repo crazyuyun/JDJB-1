@@ -1,8 +1,13 @@
 // noinspection JSUnresolvedVariable
 
 /*
-* 59 * * * * m_jx_cfd_pearl_exchange.js
-* */
+[task_local]
+财富岛珍珠兑换
+59 * * * * jd_jx_cfd_pearl_exchange.js, tag=财富岛珍珠兑换, enabled=true
+================Loon==============
+[Script]
+cron "59 * * * *" script-path=jd_jx_cfd_pearl_exchange.js,tag=财富岛珍珠兑换
+*/
 // noinspection JSUnresolvedFunction
 const {Env} = require('./utils/magic');
 const $ = new Env('M财富岛珍珠兑换');

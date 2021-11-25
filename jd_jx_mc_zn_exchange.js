@@ -1,8 +1,13 @@
 // noinspection DuplicatedCode
 
 /*
-* 59 19 11-30 11 * m_jx_mc_zn_exchange.js
-* */
+[task_local]
+牧场助农兑换
+59 19 11-30 11 * jd_jx_mc_zn_exchange.js, tag=牧场助农兑换, enabled=true
+================Loon==============
+[Script]
+cron "59 19 11-30 11 *" script-path=jd_jx_mc_zn_exchange.js,tag=牧场助农兑换
+*/
 const {Env} = require('./utils/magic');
 const $ = new Env('M牧场助农兑换');
 $.logic = async function () {
