@@ -688,8 +688,6 @@ function pigPetDoMission(mid) {
                 if (data.resultData.resultData) {
                   if (data.resultData.resultData.award) {
                     console.log(`奖励${data.resultData.resultData.award.name},数量:${data.resultData.resultData.award.count}`)
-                  } if (data.resultData.resultData.status === 3) {
-                    console.log('此任务需手动完成')
                   }
                 }
               } else {
