@@ -28,6 +28,13 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const { JSDOM } = $.isNode() ? require('jsdom') : '';
 const { window } = new JSDOM(``, { url: dailyEggUrl, runScripts: "outside-only", pretentToBeVisual: true, resources: "usable" })
 const Faker = require('./utils/JDSignValidator.js')
+function oc(fn, defaultVal) {//optioanl chaining
+  try {
+    return fn()
+  } catch (e) {
+    return undefined
+  }
+}
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -63,7 +70,8 @@ if ($.isNode()) {
       const fakerBody = Faker.getBody(dailyEggUrl)
       $.fp = fakerBody.fp
       $.eid = await getClientData(fakerBody)
-      $.token = (await downloadUrl("https://gia.jd.com/m.html")).match(/var\s*?jd_risk_token_id\s*?=\s*["`'](\S*?)["`'];?/)?.[1] || ""
+      const temp = (await downloadUrl("https://gia.jd.com/m.html")).match(/var\s*?jd_risk_token_id\s*?=\s*["`'](\S*?)["`'];?/)
+      $.token = oc(() => temp[1]) || ""
       await jdDailyEgg();
     }
   }
@@ -147,7 +155,7 @@ function toWithdraw() {
 }
 function toDailyHome() {
   return new Promise(async resolve => {
-    const body = getBody(false)
+    const body = getBody()
     $.get(taskUrl('toDailyHome', body), (err, resp, data) => {
       try {
         if (err) {
