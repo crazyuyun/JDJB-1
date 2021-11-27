@@ -75,8 +75,10 @@ if ($.isNode()) {
                 let range = $.count.maxTaskCount - $.count.finishCount;
                 await getTaskList(cookie)
                 await $.wait(2000)
-                for (let k in $.taskList) {
-                    if ($.taskList[k].taskId !== null && $.taskList[k].status == 1) {
+				var CountDoTask =0;
+				for (let k in $.taskList) {
+                if ($.taskList[k].taskId !== null && $.taskList[k].statusName != "活动结束" && $.taskList[k].statusName != "明日再来") {
+						CountDoTask+=0;
                         console.log(`开始尝试活动:` + $.taskList[k].taskName);
                         await saveTaskRecord(cookie, $.taskList[k].taskId, $.taskList[k].businessId, $.taskList[k].taskType);
                         if ($.sendBody) {
