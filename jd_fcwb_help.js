@@ -227,8 +227,8 @@ function safeGet(data) {
     }
 }
 async function takeRequest(functionId,bodyInfo,h5stFlag = false){
-    let  url = `https://api.m.jd.com/?functionId=happyDigHelp&body=${encodeURIComponent(bodyInfo)}&t=1637705234767&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=20211124060714769%3B0745683210997892%3Bce6c2%3Btk02w79fe1b0218naJCbw50xNECTBzx6BMYd5aKyyr6wE%2BNA8UdHNQIGHwJSma8T%2B9kA46G3eMBPMjOkTfEFwquQEkMF%3B3f4ef68221c0f3f262a745c30dec4421de5905f27e22c8f0e00b4f1dc814ba08%3B3.0%3B1637705234769'`;
-	if(h5stFlag){
+    let  url = `https://api.m.jd.com/?functionId=${functionId}&body=${encodeURIComponent(bodyInfo)}&t=${Date.now()}&appid=activities_platform&client=H5&clientVersion=1.0.0`;
+    if(h5stFlag){
         //url = await getH5stUrl(functionId,bodyInfo);
     }
     const headers = {
