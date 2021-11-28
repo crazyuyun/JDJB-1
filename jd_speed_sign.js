@@ -75,6 +75,10 @@ let llAPIError = false
       }
       await jdGlobal()
       await $.wait(10 * 1000)
+	  if (llAPIError){
+		console.log(`黑IP了，赶紧重新拨号换个IP吧`);
+		break;
+	  }
     }
   }
 })()
