@@ -115,7 +115,7 @@ async function exchangePinPinPearlStateByMax(){
     let number = Math.max.apply(Math,conditionList.map(item => {
         return item.ddwVirHb;
     }));
-
+    await $.wait(500);
     let condition = conditionList.filter(e => e.ddwVirHb == number)[0];
     await exchangePinPinPearl(condition.ddwVirHb,condition.strPool,false);
 }
