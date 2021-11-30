@@ -71,7 +71,7 @@ if ($.isNode()) {
 
 async function main() {
     mainInfo = await task('collect_Init', { "channel": 1 });
-    if (mainInfo) {
+    if (mainInfo && mainInfo.code != 3) {
         if (mainInfo.result.activityStatus === 2) {
             popWindow = mainInfo.result.popWindow;
             if (popWindow.windowType === 2 && popWindow.windowStatus === 1) {
@@ -104,7 +104,19 @@ async function main() {
             }
         } else if (mainInfo.result.activityStatus === 3) {
             console.log("您已经集齐所有勋章了，快去领取奖品吧！")
-            message += `\n【京东账号${$.index}】${$.nickName || $.UserName}\n您已经集齐所有勋章了，快去领取奖品吧！`
+            getAwardInfo = await task('collect_getAwardInfo', {})
+            if (!getAwardInfo.result.awardList[0].risk) {
+                collect_exchangeAward = await task('collect_exchangeAward', { "type": 3 })
+                if (collect_exchangeAward.code == 0) {
+                    console.log(`已兑换${collect_exchangeAward.result.awardValue}京豆`);
+                    message += `\n【京东账号${$.index}】${$.nickName || $.UserName}\n兑换${collect_exchangeAward.result.awardValue}京豆`
+                }
+            } else {
+                collect_exchangeAward = await task('collect_exchangeAward', { "type": 2 })
+                if (collect_exchangeAward.code == 0) {
+                    console.log(`已兑换${collect_exchangeAward.result.awardValue}水滴`);
+                }
+            }
         } else if (mainInfo.result.activityStatus === 4) {
             console.log("您已经集齐所有勋章并领取奖品了,等待下一次活动开启!")
         }
