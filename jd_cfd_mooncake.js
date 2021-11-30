@@ -84,8 +84,8 @@ if ($.isNode()) {
       await $.wait(2000);
     }
   }
-  let res = await getAuthorShareCode('')
-  $.strMyShareIds = [...(res && res.shareId || [])]
+  let res = await getAuthorShareCode('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/cfd.json')
+  $.strMyShareIds = [...(res || [])]
   await shareCodesFormat()
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
@@ -98,7 +98,7 @@ if ($.isNode()) {
         console.log(`账号${$.UserName} 去助力 ${$.newShareCodes[j]}`)
         $.delcode = false
         await helpByStage($.newShareCodes[j])
-        await $.wait(4000)
+        await $.wait(2000)
         if ($.delcode) {
           $.newShareCodes.splice(j, 1)
           j--
@@ -136,7 +136,7 @@ async function cfd() {
     await composePearlState(4)
 
     //助力奖励
-    await $.wait(3000)
+    await $.wait(2000)
     await composePearlState(2)
 
     //合成月饼
@@ -145,7 +145,7 @@ async function cfd() {
     console.log(`合成月饼运行次数为：${count}\n`)
     let num = 0
     do {
-      await $.wait(4000)
+      await $.wait(2000)
       await composePearlState(3)
       num++
     } while (!$.stop && num < count)

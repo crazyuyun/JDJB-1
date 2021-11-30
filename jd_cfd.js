@@ -91,8 +91,8 @@ if ($.isNode()) {
       await $.wait(2000);
     }
   }
-  //let res = await getAuthorShareCode('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/cfd.json')
-  $.strMyShareIds = [...(res && res.shareId || [])]
+  let res = await getAuthorShareCode('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/cfd.json')
+  $.strMyShareIds = [...(res || [])]
   await shareCodesFormat()
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
