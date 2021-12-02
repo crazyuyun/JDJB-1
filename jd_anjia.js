@@ -2,9 +2,9 @@
 组队分豆-安佳 [jd_anjia.js]
 
 ————————————————
-入口：[组队分豆-安佳 (https://lzkjdz-isv.isvjcloud.com/pool/captain/12318?activityId=e7c37c2548284d1eb7920079fbf6be68&shareUuid=4677dff388e94ad2b78c2f76af1acc2b)]
+入口：[组队分豆-安佳 (https://lzkjdz-isv.isvjcloud.com/pool/captain/12318?activityId=e7c37c2548284d1eb7920079fbf6be68&shareUuid=9ee33dadd1be4ba8a5fa4875f800b617)]
 IOS等用户直接用NobyDa的jd cookie
-cron "1 0,7,12,18,22 * * *" script-path=jd_anjia.js,tag=组队分豆-安佳
+cron "1 0,7,12 * * *" script-path=jd_anjia.js,tag=组队分豆-安佳
 */
 const $ = new Env("组队分豆-安佳");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -30,7 +30,7 @@ if ($.isNode()) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    console.log(`若之前做过该活动，则无法重复入队。\n入口:\nhttps://lzkjdz-isv.isvjcloud.com/pool/captain/12318?activityId=e7c37c2548284d1eb7920079fbf6be68&shareUuid=4677dff388e94ad2b78c2f76af1acc2b`)
+    console.log(`若之前做过该活动，则无法重复入队。\n入口:\nhttps://lzkjdz-isv.isvjcloud.com/pool/captain/12318?activityId=e7c37c2548284d1eb7920079fbf6be68&shareUuid=9ee33dadd1be4ba8a5fa4875f800b617`)
 
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
@@ -50,7 +50,7 @@ if ($.isNode()) {
                 }
                 continue
             }
-            authorCodeList = ['4677dff388e94ad2b78c2f76af1acc2b']
+            authorCodeList = ['9ee33dadd1be4ba8a5fa4875f800b617']
             $.bean = 0;
             $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
             $.activityId = 'e7c37c2548284d1eb7920079fbf6be68'
