@@ -66,7 +66,8 @@ async function main() {
                     $.exchangeList = $.exchangeList.filter((x) => !x.name.includes('红包'))
                     for (const vo of $.exchangeList.reverse()) {
                         $.log(`去兑换：${vo.name}`)
-                        await taskPost('do_exchange', `id=${vo.id}`);
+                        await taskPost('do_exchange', `id=${vo.id}`);、
+                        await $.wait(1000)
                     }
                 } else {
                     $.log("没有获取到兑换列表！")
