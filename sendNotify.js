@@ -1156,7 +1156,8 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
                             }
                         }
 
-                        $.nickName = $.nickName || $.UserName;
+                        $.nickName = $.nickName || $.UserName;						
+						
                         //这是为了处理ninjia的remark格式
                         $.Remark = $.Remark.replace("remark=", "");
                         $.Remark = $.Remark.replace(";", "");
@@ -1167,16 +1168,32 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
                         if (ShowRemarkType == "3") {
                             $.Remark = $.UserName + "(" + $.Remark + ")";
                         }
-                        try {
-                            //加个空格，因为有些通知账号前没有空格很丑-_-!!!
-                            text = text.replace(new RegExp(`${$.UserName}|${$.nickName}`, 'gm'), " " + $.Remark);
-                            desp = desp.replace(new RegExp(`${$.UserName}|${$.nickName}`, 'gm'), " " + $.Remark);
+						
+                        try {   
+							//额外处理1，nickName包含星号
+							$.nickName=$.nickName.replace(new RegExp(`[*]`, 'gm'), "[*]");		
+							
+                            text = text.replace(new RegExp(`${$.UserName}|${$.nickName}`, 'gm'), $.Remark);
+                            desp = desp.replace(new RegExp(`${$.UserName}|${$.nickName}`, 'gm'), $.Remark);
+							
+							//额外处理2，nickName不包含星号，但是确实是手机号
+							var tempname=$.UserName;
+							if(tempname.length==13 && tempname.substring(8)){								
+								tempname=tempname.substring(0,3)+"[*][*][*][*][*]"+  tempname.substring(8);
+								//console.log("额外处理2:"+tempname);
+								text = text.replace(new RegExp(tempname, 'gm'), $.Remark);
+								desp = desp.replace(new RegExp(tempname, 'gm'), $.Remark);
+							}
+							
                         } catch (err) {
                             console.log("替换出错了");
                             console.log("Debug Name1 :" + $.UserName);
                             console.log("Debug Name2 :" + $.nickName);
                             console.log("Debug Remark :" + $.Remark);
                         }
+						
+						
+						
                         //console.log($.nickName+$.Remark);
 
                     }
