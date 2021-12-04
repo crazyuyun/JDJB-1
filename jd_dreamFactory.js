@@ -95,7 +95,7 @@ if ($.isNode()) {
       await jdDreamFactory()
     }
   }
-  for (let j = 0; j < lnTotalAcc; j++) {
+  for (let j = 0; j < cookiesArr.length; j++) {
     if (cookiesArr[j]) {
       cookie = cookiesArr[j];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -104,7 +104,7 @@ if ($.isNode()) {
     }
   }
   if (tuanActiveId) {
-    for (let i = 0; i < lnTotalAcc; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
       if (cookiesArr[i]) {
         cookie = cookiesArr[i];
         $.isLogin = true;
@@ -146,8 +146,8 @@ async function jdDreamFactory() {
     await taskList();
     await investElectric();
     await QueryHireReward();//收取招工电力
-    await PickUp();//收取自家的地下零件
-    await stealFriend();
+//     await PickUp();//收取自家的地下零件
+//     await stealFriend();
     if (tuanActiveId) {
       await tuanActivity();
       await QueryAllTuan();
