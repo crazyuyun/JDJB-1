@@ -50,7 +50,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
   if (!($.st <= nowTs && nowTs < $.ed)) {
     let hour = (new Date().getUTCHours() + 8) % 24;
     let redIds = await getRedRainIds('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/redrain.json');
-    if (!redIds) redIds = await getRedRainIds('https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/redrain.json');
+    if (!redIds) redIds = await getRedRainIds('https://cdn.jsdelivr.net/gh/gitupdate/updateTeam@master/redrain.json');
     $.newAcids = [...(redIds || [])];
     if ($.newAcids && $.newAcids.length) {
       $.log(`本地红包雨配置获取成功，ID为：${JSON.stringify($.newAcids)}\n`)
