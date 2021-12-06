@@ -1,12 +1,9 @@
 /*
 星系牧场
-活动入口：QQ星儿童牛奶京东自营旗舰店->星系牧场
-每次都要手动打开才能跑 不知道啥问题
-号1默认给我助力,后续接龙 2给1 3给2
- 19.0复制整段话 http:/J7ldD7ToqMhRJI星系牧场养牛牛，可获得DHA专属奶！%VAjYb8me2b!→去猄倲←
+活动入口：QQ星儿童牛奶京东自营旗舰店->品牌会员->星系牧场
 [task_local]
 #星系牧场
-1 0-23/2 * * * jd_qqxing.js
+1 0-23/4 * * * jd_qqxing.js
 */
 const $ = new Env('QQ星系牧场');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -85,7 +82,7 @@ $.shareuuid = ["bf3ffb1c973a49acbac4983ac15162f3", "be5c05485b624d69b2bb1acee71f
                             await getproduct()
                             await writePersonInfo($.vid)
                             await dotask(task.taskid, $.pparam)
-                        } else {
+						} else if (task.taskid !== "add2cart") {
                             await dotask(task.taskid, task.params)
                             await $.wait(18000)
                         }
@@ -224,7 +221,7 @@ function getToken2() {
                     console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
                     data = JSON.parse(data);
-                    console.log(data)
+                    //console.log(data)
                     $.token2 = data['token']
                     //     console.log($.token2)
                 }
