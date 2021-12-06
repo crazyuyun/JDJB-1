@@ -11,7 +11,7 @@
 第一个账号助力作者 其他依次助力CK1
 第一个CK失效会退出脚本
 ————————————————
-入口：[ 12.1~12.15 12.12品牌礼遇 天降惊喜 (https://lzdz1-isv.isvjcloud.com/dingzhi/customized/common/activity?activityId=dd20211201ymh096ry73i6s80&shareUuid=9f75bfc1d40845699c3c124d64b178ef)]
+入口：[ 12.1~12.15 12.12品牌礼遇 天降惊喜 (https://lzdz1-isv.isvjcloud.com/dingzhi/customized/common/activity?activityId=dd20211201ymh096ry73i6s80&shareUuid=0f88103a53bf4caf8152cc7936df4d7c)]
 
 请求太频繁会被黑ip
 过10分钟再执行
@@ -53,8 +53,8 @@ let activityCookie =''
     });
     return;
   }
-  $.activityId = "dd20211201ymh096ry73i6s80"
-  $.shareUuid = "d574f83ce06242eab9f78da79ca4d786"
+  $.activityId = "dd202112054tv7ur9e458rmdh"
+  $.shareUuid = "0f88103a53bf4caf8152cc7936df4d7c"
   console.log(`入口:\nhttps://lzdz1-isv.isvjcloud.com/dingzhi/customized/common/activity?activityId=${$.activityId}&shareUuid=${$.shareUuid}`)
 
   for (let i = 0; i < cookiesArr.length; i++) {
