@@ -95,7 +95,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
         // console.log(nowTs, $.startTime, $.endTime)
         // await showMsg();
         if (id) await receiveRedRain(id);
-		await $.wait(2000)
+		await $.wait(1000)
       }
     }
   }
