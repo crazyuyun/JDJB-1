@@ -1,6 +1,19 @@
 /*
-10 1,21 * * * jd_xiaolong.js
-*/
+骁龙
+脚本兼容: QuantumultX, Surge,Loon, JSBox, Node.js
+更新地址  https://raw.githubusercontent.com/star261/jd/main/scripts/jd_xiaolong.js
+=================================Quantumultx=========================
+[task_local]
+#骁龙
+10 1,21 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_xiaolong.js, tag=骁龙, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+=================================Loon===================================
+[Script]
+cron "10 1,21 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_xiaolong.js,tag=骁龙
+===================================Surge================================
+骁龙 = type=cron,cronexp="10 1,21 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_xiaolong.js
+====================================小火箭=============================
+骁龙 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_xiaolong.js, cronexpr="10 1,21 * * *", timeout=3600, enable=true
+ */
 const $ = new Env('骁龙');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let cookiesArr = [];
@@ -141,10 +154,10 @@ function takePostRequest(type) {
             body = `activityId=${activityID}&actorUuid=${actorUuid}&param=${$.param}&taskType=${$.taskType}&pin=${encodeURIComponent(pin)}&shareUuid=${$.shareUuid}`;
             break;
         case 'doTask2':
-            let aa = ['f4ea5fc2df914528a60719bfef0e6248'];
+            let aa = ['24cd40992bc54a0da19cdd9f9d13fa5d','a2d5f34cec864a22ae0eac379bdc8f20'];
             let code = getRandomArrayElements(aa,1)[0]
             url = 'https://lzdz-isv.isvjcloud.com/unify/cardTaskDraw/doTask';
-            body = `activityId=${activityID}&actorUuid=${actorUuid}&param=${$.param}&taskType=20&pin=${encodeURIComponent(pin)}&shareUuid=24cd40992bc54a0da19cdd9f9d13fa5d`;
+            body = `activityId=${activityID}&actorUuid=${actorUuid}&param=${$.param}&taskType=20&pin=${encodeURIComponent(pin)}&shareUuid=${code}`;
             break;
         case 'getTaskList':
             url = 'https://lzdz-isv.isvjcloud.com/unify/common/getTaskList';
