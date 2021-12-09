@@ -6,17 +6,17 @@ by:小手冰凉 tg:@chianPLA
 ============Quantumultx===============
 [task_local]
 #京东小魔方--收集兑换
-31 8 * * 4 https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js, tag=京东小魔方--收集兑换, enabled=true
+31 8 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js, tag=京东小魔方--收集兑换, enabled=true
 
 ================Loon==============
 [Script]
-cron "31 8 * * 4" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js,tag=京东小魔方--收集兑换
+cron "31 8 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js,tag=京东小魔方--收集兑换
 
 ===============Surge=================
-京东小魔方--收集兑换 = type=cron,cronexp="31 8 * * 4",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js
+京东小魔方--收集兑换 = type=cron,cronexp="31 8 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js
 
 ============小火箭=========
-京东小魔方--收集兑换 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js, cronexpr="31 8 * * 4", timeout=3600, enable=true
+京东小魔方--收集兑换 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mofang_ex.js, cronexpr="31 8 * * *", timeout=3600, enable=true
 
  */
 const $ = new Env('京东小魔方--收集兑换');
