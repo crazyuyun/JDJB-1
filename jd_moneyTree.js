@@ -240,7 +240,7 @@ function dayWork() {
       }
     }
     for (let task of taskInfo) {
-      if (task.mid && task.workStatus === 0) {
+      if (task.mid && task.workStatus === 0 && task.mid !=666 && task.mid !=667) {
         console.log('开始做浏览任务');
         // yield setUserLinkStatus(task.mid);
         let aa = await setUserLinkStatus(task.mid);
