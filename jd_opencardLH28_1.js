@@ -17,11 +17,11 @@
 请求太频繁会被黑ip
 过10分钟再执行
 
-cron:17 5,19 12-21 12 *
+cron:17 5,19 10-21 12 *
 ============Quantumultx===============
 [task_local]
 #12.10～12.21 京选大牌 超会宠你
-17 5,19 12-21 12 * https://raw.githubusercontent.com/he1pu/JDHelp/main/jd_opencardLH28.js, tag=12.10～12.21 京选大牌 超会宠你, enabled=true
+17 5,19 10-21 12 * https://raw.githubusercontent.com/he1pu/JDHelp/main/jd_opencardLH28.js, tag=12.10～12.21 京选大牌 超会宠你, enabled=true
 
 */
 
