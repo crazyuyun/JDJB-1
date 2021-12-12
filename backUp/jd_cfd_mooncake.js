@@ -138,10 +138,10 @@ async function cfd() {
     await $.wait(2000)
     await composePearlState(2)
 
-    //合成月饼
+    //合成珍珠
     let count = $.isNode() ? (process.env.JD_CFD_RUNNUM ? process.env.JD_CFD_RUNNUM * 1 : Math.floor((Math.random() * 2)) + 3) : ($.getdata('JD_CFD_RUNNUM') ? $.getdata('JD_CFD_RUNNUM') * 1 : Math.floor((Math.random() * 2)) + 3);
-    console.log(`\n合成月饼`)
-    console.log(`合成月饼运行次数为：${count}\n`)
+    console.log(`\n合成珍珠`)
+    console.log(`合成珍珠运行次数为：${count}\n`)
     let num = 0
     do {
       await $.wait(2000)
@@ -154,7 +154,7 @@ async function cfd() {
   }
 }
 
-// 合成月饼
+// 合成珍珠
 async function composePearlState(type) {
   return new Promise(async (resolve) => {
     $.get(taskUrl(`user/ComposePearlState`, `__t=${Date.now()}&dwGetType=0`), async (err, resp, data) => {
@@ -192,12 +192,12 @@ async function composePearlState(type) {
             case 3:
               data = JSON.parse(data.replace(/\n/g, "").match(new RegExp(/jsonpCBK.?\((.*);*\)/))[1]);
               if (data.iRet === 0) {
-                console.log(`当前已合成${data.dwCurProgress}颗月饼，总计获得${data.ddwVirHb / 100}元红包`)
+                console.log(`当前已合成${data.dwCurProgress}颗珍珠，总计获得${data.ddwVirHb / 100}元红包`)
                 if (data.strDT) {
                   // let num = Math.ceil(Math.random() * 12 + 12)
                   let num = data.PearlList.length
                   let div = Math.ceil(Math.random() * 4 + 2)
-                  console.log(`合成月饼：模拟操作${num}次`)
+                  console.log(`合成珍珠：模拟操作${num}次`)
                   for (let v = 0; v < num; v++) {
                     console.log(`模拟操作进度：${v + 1}/${num}`)
                     let beacon = data.PearlList[0]
@@ -224,13 +224,13 @@ async function composePearlState(type) {
                   let strLT = data.oPT[data.ddwCurTime % data.oPT.length]
                   let res = await composePearlAddProcess(data.strDT, strLT)
                   if (res.iRet === 0) {
-                    console.log(`\n合成月饼成功：获得${res.ddwAwardHb / 100}元红包\n`)
+                    console.log(`\n合成珍珠成功：获得${res.ddwAwardHb / 100}元红包\n`)
                     if (res.ddwAwardHb === 0) {
                       $.stop = true
-                      console.log(`合成月饼没有奖励，停止运行\n`)
+                      console.log(`合成珍珠没有奖励，停止运行\n`)
                     }
                   } else {
-                    console.log(`\n合成月饼失败：${res.sErrMsg}\n`)
+                    console.log(`\n合成珍珠失败：${res.sErrMsg}\n`)
                   }
                 } else {
                   console.log(`今日已完成\n`)
