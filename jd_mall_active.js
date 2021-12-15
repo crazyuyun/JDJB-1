@@ -20,9 +20,6 @@ cron "0 0,18 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/m
 ============小火箭=========
 逛京东会场 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_mall_active.js, cronexpr="0 0,18 * * *", timeout=3600, enable=true
 
-逛京东会场
-
-0 0,18 * * * jd_mall_active.js
 */
 const $ = new Env("逛京东会场");
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
@@ -109,7 +106,8 @@ async function main(urlID,code) {
     $.actId = ($.url2.match(/mall\/active\/([^/]+)\/index\.html/) && $.url2.match(/mall\/active\/([^/]+)\/index\.html/)[1]);
     let arr = getBody($.UA, $.url2);
     await getEid(arr);
-    console.log(`$.actId:` + $.actId);
+    //console.log(`$.actId:` + $.actId);
+	console.log('抱歉，可能领取过');
     await $.wait(500);
   }
 }
