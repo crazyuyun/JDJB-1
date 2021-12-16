@@ -107,7 +107,7 @@ async function main(urlID,code) {
     let arr = getBody($.UA, $.url2);
     await getEid(arr);
     //console.log(`$.actId:` + $.actId);
-	console.log('抱歉，可能领取过');
+	console.log('暂时未获取到活动，自行禁用或等待活动开启！');
     await $.wait(500);
   }
 }
