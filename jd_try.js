@@ -17,7 +17,6 @@ export JD_TRY_MAXLENGTH="50" #商品数组的最大长度
 export JD_TRY_APPLYINTERVAL="5000" #商品试用之间和获取商品之间的间隔
 export JD_TRY_APPLYNUMFILTER="100000" #过滤大于设定值的已申请人数
 export JD_TRY_MINSUPPLYNUM="1" #最小提供数量
-export JD_TRY_TABID="1@2@3@4@5@6@7@8@9@10"
 export JD_TRY_SENDNUM="10" #每隔多少账号发送一次通知，不需要可以不用设置
 cron "4 1-22/8 * * *" jd_try.js, tag:京东试用
 
