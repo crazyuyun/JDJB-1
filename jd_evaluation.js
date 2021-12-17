@@ -297,7 +297,7 @@ function sendServiceEval(item){
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     if (safeGet(data)) {
-                        data = JSON.parse(data);
+                        data = JSON.parse(data);;
                         if (data.errMsg === 'success') {
                             console.log('服务评价成功！');
                         } else {
@@ -355,7 +355,7 @@ function appendComment(item){
                     console.log(`${$.name} API请求失败，请检查网路重试`);
                 } else {
                     if (safeGet(data)) {
-                        data = JSON.parse(data);
+                        data = JSON.parse(data);;
                         if (data.errMsg === 'success') {
                             console.log('晒单成功！');
                         } else {
