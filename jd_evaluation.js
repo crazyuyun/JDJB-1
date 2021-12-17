@@ -43,7 +43,7 @@ let commentImgList = [
     '//img30.360buyimg.com/shaidan/jfs/t1/143995/15/24443/5327/61860ba4Ecba97817/d7faafa606f76b1f.jpg'];
 if ($.isNode()) {
   console.log('配置文件中添加下方变量自定义评价图片：')
-  console.log('export EVAL_IMGS="//img30.360buyimg.com/shaidan/jfs/t1/169124/31/25110/42459/61a586c7Ec6b49656/1549ee98784f868d.jpg"')
+  console.log('export EVAL_IMGS='//img30.360buyimg.com/shaidan/jfs/t1/220117/4/6009/64307/61a586d6E0d3462c9/2d49512023e40761.jpg')
   console.log('多个图片请用&隔开，请自行替换图片！')
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
