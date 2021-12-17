@@ -36,7 +36,7 @@ if ($.isNode()) {
 } else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
-
+let receiveBean = 0
 const JD_API_HOST = `https://xinrui2-isv.isvjcloud.com`;
 !(async () => {
   if (!cookiesArr[0]) {
@@ -64,7 +64,7 @@ const JD_API_HOST = `https://xinrui2-isv.isvjcloud.com`;
       $.canDo = true
       $.user_id = ""
       $.letterList.length = 0 ;
-      let receiveBean = 0;
+      receiveBean = 0;
       await getMyToken(`user/token`,`&client=m&url=pengyougou.m.jd.com`);
       $.token = $.tokenList.data
       console.log(`Token:${$.token}\n`)
