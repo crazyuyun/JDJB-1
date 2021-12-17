@@ -26,8 +26,7 @@ const MISSION_BASE_API = `https://ms.jr.jd.com/gw/generic/mission/h5/m`;
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let shareId = ["vLENq1IrJJAHtgSG42oVtQ", "yXY3Cgtc3IR77UphNEyig8AdoUJQ3Dik", "zePwdYsVecOsUQaf2b72AcAdoUJQ3Dik"][Math.floor((Math.random() * 3))];
-let helpId = ["a276052f-475c-4bbc-ad19-7164c6e65dc5", "6ba62dbd-9c41-4c85-a1b7-a7dcb991bb2e", "5f7b41ab-985e-419d-b085-5487ffe2f5ee"];
+let shareId = ["vLENq1IrJJAHtgSG42oVtQ", "yXY3Cgtc3IR77UphNEyig8AdoUJQ3Dik", "zePwdYsVecOsUQaf2b72AcAdoUJQ3Dik", "r8iaq6UiSWTa88eqS1YyA8AdoUJQ3Dik"][Math.floor((Math.random() * 4))];
 $.shareCodes = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -43,6 +42,7 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
   }
+  await getShareCode();
   console.log(`\n添加：邀请新用户，大转盘助力，抢粮食\n修改：优化日志输出，自动喂食\n\n默认不抢粮食（成功机率小），需要的请添加变量JD_PIGPET_PK，值填true\n`);
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -77,7 +77,7 @@ if ($.isNode()) {
       }
     }
   }
-  if (process.env.PIGNF != 'false' && allMessage && new Date().getHours() % 6 === 0) {
+  if (process.env.PIGNF != 'false' && allMessage) {
     if ($.isNode()) await notify.sendNotify($.name, allMessage);
     $.msg($.name, '', allMessage);
   }
@@ -847,6 +847,29 @@ function finishReadMission(missionId, readTime) {
           } else {
             console.log(`京东服务器返回空数据`)
           }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve();
+      }
+    })
+  })
+}
+function getShareCode() {
+  return new Promise(resolve => {
+    $.get({
+      url: "https://gitee.com/KingRan521/JD-Scripts/raw/master/shareCodes/pig.json",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }
+    }, async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`);
+          console.log(`${$.name} API请求失败，请检查网路重试`);
+        } else {
+          $.helpId = JSON.parse(data);
         }
       } catch (e) {
         $.logErr(e, resp)
