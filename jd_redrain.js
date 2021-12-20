@@ -2,6 +2,7 @@
 整点京豆雨
 更新时间：2021-12-8
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
+by：msechen
 ==============Quantumult X==============
 [task_local]
 #整点京豆雨
@@ -21,12 +22,14 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 let jd_redrain_activityId = '';
+let jd_redrain_url =  '';
 let allMessage = '', message = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
   })
   if (process.env.jd_redrain_activityId) jd_redrain_activityId = process.env.jd_redrain_activityId
+  if (process.env.jd_redrain_url) jd_redrain_url = process.env.jd_redrain_url
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {
   };
 } else {
@@ -39,9 +42,13 @@ if ($.isNode()) {
     return;
   }
   if (!jd_redrain_activityId) {
-    $.log(`\n本地红包雨配置获取错误，尝试从远程读取配置`);
+    $.log(`\n本地红包雨配置获取错误，尝试从远程读取配置\n`);
     await $.wait(1000);
-    let RedRainIds = await getRedRainIds();
+    if (!jd_redrain_url) {
+      $.log(`\n今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
+      return;
+    }    
+    let RedRainIds = await getRedRainIds(jd_redrain_url);
     for (let i = 0; i < 1; i++) {
       jd_redrain_activityId = RedRainIds[0];
     }
@@ -50,7 +57,6 @@ if ($.isNode()) {
     $.log(`\n今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
     return;
   }
-
   let codeList = jd_redrain_activityId.split("@");
   let hour = (new Date().getUTCHours() + 8) % 24;
   console.log(`\n龙王就位: ${codeList}\n\n准备领取${hour}点京豆雨\n`);
@@ -149,7 +155,7 @@ function noahRedRainLottery() {
   })
 }
 
-function getRedRainIds(url = "https://gitee.com/msewb/jdrain/raw/master/redrain.json") {
+function getRedRainIds(url) {
   return new Promise(async resolve => {
     const options = {
       url: `${url}?${new Date()}`, "timeout": 10000, headers: {
