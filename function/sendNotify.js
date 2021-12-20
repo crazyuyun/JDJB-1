@@ -1,8 +1,4 @@
 /*
- * @Author: lxk0301 https://gitee.com/lxk0301
- * @Date: 2020-08-19 16:12:40
- * @Last Modified by: whyour
- * @Last Modified time: 2021-5-1 15:00:54
  * sendNotify 推送通知功能
  * @param text 通知头
  * @param desp 通知体
@@ -181,7 +177,7 @@ let strCustomArr = [];
 let strCustomTempArr = [];
 let Notify_CKTask = "";
 let Notify_SkipText = [];
-async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By ccwav Mod') {
+async function sendNotify(text, desp, params = {}, author = '\n') {
     console.log(`开始发送通知...`);
     try {
         //Reset 变量
@@ -1113,7 +1109,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
                 }
 
                 if (allCode) {
-                    desp += '\n' + '\n' + "ccwav格式化后的互助码:" + '\n' + allCode;
+                    desp += '\n' + '\n' + "格式化后的互助码:" + '\n' + allCode;
                 }
             }
         }
@@ -1280,7 +1276,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
         ]);
 }
 
-async function sendNotifybyWxPucher(text, desp, PtPin, author = '\n\n本通知 By ccwav Mod') {
+async function sendNotifybyWxPucher(text, desp, PtPin, author = '\n') {
 
     try {
         var Uid = "";
@@ -1760,6 +1756,7 @@ function buildLastDesp(desp, author = '') {
         if (!author.match(/本通知 By/)) {
             author = `\n\n本通知 By ${author}`
         }
+        if (!author) author = ''
         return desp.trim() + author + "\n通知时间: " + GetDateTime(new Date());
     }
 }
