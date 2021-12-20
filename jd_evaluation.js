@@ -207,10 +207,11 @@ function sendEval(item){
         'syncsg': 0,
         'content': generation(item['name'],true,"1"),
         'userclient': 29,
-        'imageJson': getRandomArrayElements(commentImgList,1)[0],
+        'imageJson': '',
         'videoid':'',
         'URL':''
     }
+    //getRandomArrayElements(commentImgList,1)[0]
     return new Promise(async (resolve) => {
         let content = urlEncode(data);
         content = content.substr(1,content.length);
@@ -323,8 +324,9 @@ function appendComment(item){
         'orderId': item['oid'],
         'content': generation(item['name'],false,"0"),
         'userclient': 29,
-        'imageJson': getRandomArrayElements(commentImgList,1)[0]
+        'imageJson': ''
     }
+    //getRandomArrayElements(commentImgList,1)[0]
     let content = urlEncode(data);
     content = content.substr(1,content.length);
     return new Promise(async (resolve) => {
