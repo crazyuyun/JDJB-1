@@ -1,5 +1,9 @@
 /*
 战队投注
+by：小手冰凉
+ [task_local]
+#快速推一推
+10 7,19 * * * jd_zd.js, tag=战队投注, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 */
 const $ = new Env('战队投注');
 const notify = $.isNode() ? require('./sendNotify') : '';
