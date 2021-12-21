@@ -144,6 +144,10 @@ async function run() {
     }else{
       console.log('已经关注')
     }
+    $.missionType = 'uniteAddCart'
+    await takePostRequest('mission');
+    await $.wait(parseInt(Math.random() * 2000 + 3000, 10))
+    
     await takePostRequest('activity_load');
     await takePostRequest('myAward');
     await takePostRequest('missionInviteList');
@@ -155,15 +159,10 @@ async function run() {
     }
     await $.wait(parseInt(Math.random() * 1000 + 5000, 10))
     if(flag) await $.wait(parseInt(Math.random() * 1000 + 10000, 10))
-    if(openwait){
-      if($.index != cookiesArr.length){
-        console.log(`等待${openwait}秒`)
-        await $.wait(parseInt(openwait, 10) * 1000)
-      }
-    }else{
-      if($.index % 3 == 0) console.log('休息1分钟，别被黑ip了\n可持续发展')
-      if($.index % 3 == 0) await $.wait(parseInt(Math.random() * 5000 + 60000, 10))
-    }
+    
+    if($.index % 3 == 0) console.log('休息1分钟，别被黑ip了\n可持续发展')
+    if($.index % 3 == 0) await $.wait(parseInt(Math.random() * 5000 + 60000, 10))
+    
   } catch (e) {
     console.log(e)
   }

@@ -146,12 +146,13 @@ async function run() {
     }else{
       console.log('已经关注')
     }
+    $.missionType = 'uniteAddCart'
+    await takePostRequest('mission');
+    await $.wait(parseInt(Math.random() * 2000 + 3000, 10))
+    
     await takePostRequest('activity_load');
-    if(guaopencard_draw+"" !== "0"){
       $.runFalag = true
       let count = parseInt($.usedChance, 10)
-      guaopencard_draw = parseInt(opencard_draw, 10)
-      if(count > guaopencard_draw) count = guaopencard_draw
       console.log(`抽奖次数为:${count}`)
       for(m=1;count--;m++){
         console.log(`第${m}次抽奖`)
@@ -164,7 +165,6 @@ async function run() {
         }
         await $.wait(parseInt(Math.random() * 2000 + 2000, 10))
       }
-    }else console.log('默认抽奖10次');
     await takePostRequest('myAward');
     await takePostRequest('missionInviteList');
     console.log($.MixNick)
@@ -175,15 +175,10 @@ async function run() {
     }
     await $.wait(parseInt(Math.random() * 1000 + 5000, 10))
     if(flag) await $.wait(parseInt(Math.random() * 1000 + 10000, 10))
-    if(openwait){
-      if($.index != cookiesArr.length){
-        console.log(`等待${openwait}秒`)
-        await $.wait(parseInt(openwait, 10) * 1000)
-      }
-    }else{
-      if($.index % 3 == 0) console.log('休息1分钟，别被黑ip了\n可持续发展')
-      if($.index % 3 == 0) await $.wait(parseInt(Math.random() * 5000 + 60000, 10))
-    }
+    
+    if($.index % 3 == 0) console.log('休息1分钟，别被黑ip了\n可持续发展')
+    if($.index % 3 == 0) await $.wait(parseInt(Math.random() * 5000 + 60000, 10))
+    
   } catch (e) {
     console.log(e)
   }
