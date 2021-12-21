@@ -1,5 +1,5 @@
 /*
-东东萌宠 更新地址： jd_pet.js
+东东萌宠 更新地址： jd_pet_help.js
 更新时间：2021-05-21
 活动入口：京东APP我的-更多工具-东东萌宠
 已支持IOS多京东账号,Node.js支持N个京东账号
@@ -11,20 +11,20 @@
 =================================Quantumultx=========================
 [task_local]
 #东东萌宠
-15 6-18/6 * * * jd_pet.js, tag=东东萌宠, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdmc.png, enabled=true
+30 5,18 * * * jd_pet_help.js, tag=东东萌宠, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdmc.png, enabled=true
 
 =================================Loon===================================
 [Script]
-cron "15 6-18/6 * * *" script-path=jd_pet.js,tag=东东萌宠
+cron "30 5,18 * * *" script-path=jd_pet_help.js,tag=东东萌宠
 
 ===================================Surge================================
-东东萌宠 = type=cron,cronexp="15 6-18/6 * * *",wake-system=1,timeout=3600,script-path=jd_pet.js
+东东萌宠 = type=cron,cronexp="30 5,18 * * *",wake-system=1,timeout=3600,script-path=jd_pet_help.js
 
 ====================================小火箭=============================
-东东萌宠 = type=cron,script-path=jd_pet.js, cronexpr="15 6-18/6 * * *", timeout=3600, enable=true
+东东萌宠 = type=cron,script-path=jd_pet_help.js, cronexpr="30 5,18 * * *", timeout=3600, enable=true
 
  */
-const $ = new Env('东东萌宠');
+const $ = new Env('东东萌宠内部互助');
 let cookiesArr = [], cookie = '', jdPetShareArr = [], isBox = false, allMessage = '';
 let message = '', subTitle = '', option = {};
 let jdNotify = false; //是否关闭通知，false打开通知推送，true关闭通知推送
@@ -46,6 +46,9 @@ if ($.isNode()) {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 
+let NowHour = new Date().getHours();
+let llhelp=true;
+
 console.log(`共${cookiesArr.length}个京东账号\n`);
 
 !(async() => {
@@ -55,6 +58,38 @@ console.log(`共${cookiesArr.length}个京东账号\n`);
         });
         return;
     }
+	if (llhelp){
+		console.log('开始收集您的互助码，用于账号内部互助，请稍等...');
+		for (let i = 0; i < cookiesArr.length; i++) {
+			if (cookiesArr[i]) {
+				cookie = cookiesArr[i];
+				$.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+				$.index = i + 1;
+				$.isLogin = true;
+				$.nickName = '';
+				await TotalBean();
+
+				if (!$.isLogin) {
+					$.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {
+						"open-url": "https://bean.m.jd.com/bean/signIndex.action"
+					});
+
+					if ($.isNode()) {
+						await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+					}
+					continue;
+				}
+				message = '';
+				subTitle = '';
+				goodsUrl = '';
+				taskInfoKey = [];
+				option = {};
+				await GetShareCode();
+			}
+		}
+		console.log('\n互助码收集完毕，开始执行内部助力...\n');
+	}
+	
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -100,6 +135,7 @@ async function jdPet() {
         if (initPetTownRes.code === '0' && initPetTownRes.resultCode === '0' && initPetTownRes.message === 'success') {
             $.petInfo = initPetTownRes.result;
             if ($.petInfo.userStatus === 0) {
+                await slaveHelp(); //助力好友
                 $.log($.name, '', `【提示】京东账号${$.index}${$.nickName || $.UserName}\n萌宠活动未开启\n请手动去京东APP开启活动\n入口：我的->游戏与互动->查看更多开启`);
                 return
             }
@@ -115,6 +151,7 @@ async function jdPet() {
             // option['media-url'] = goodsUrl;
             // console.log(`初始化萌宠信息完成: ${JSON.stringify(petInfo)}`);
             if ($.petInfo.petStatus === 5) {
+                await slaveHelp(); //可以兑换而没有去兑换,也能继续助力好友
                 option['open-url'] = "openApp.jdMobile://";
                 $.msg($.name, ``, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】${$.petInfo.goodsInfo.goodsName}已可领取\n请去京东APP或微信小程序查看\n点击弹窗即达`, option);
                 if ($.isNode()) {
@@ -122,6 +159,7 @@ async function jdPet() {
                 }
                 return
             } else if ($.petInfo.petStatus === 6) {
+                await slaveHelp(); //已领取红包,但未领养新的,也能继续助力好友
                 option['open-url'] = "openApp.jdMobile://";
                 $.msg($.name, ``, `【京东账号${$.index}】${$.nickName || $.UserName}\n【提醒⏰】已领取红包,但未继续领养新的物品\n请去京东APP或微信小程序查看\n点击弹窗即达`, option);
                 if ($.isNode()) {
@@ -136,12 +174,9 @@ async function jdPet() {
                 return
             }
             $.taskInfo = $.taskInit.result;
-			
-            await petSport(); //遛弯
-            await masterHelpInit(); //获取助力的信息
-            await doTask(); //做日常任务
-            await feedPetsAgain(); //再次投食
-            await energyCollect(); //收集好感度
+			if (llhelp){
+				await slaveHelp(); //助力好友
+			}
             await showMsg();
             
         } else if (initPetTownRes.code === '0') {
@@ -177,157 +212,61 @@ async function GetShareCode() {
         $.msg($.name, '', `${errMsg}`);
     }
 }
-
-// 收取所有好感度
-async function energyCollect() {
-    console.log('开始收取任务奖励好感度');
-    let function_id = arguments.callee.name.toString();
-    const response = await request(function_id);
-    // console.log(`收取任务奖励好感度完成:${JSON.stringify(response)}`);
-    if (response.resultCode === '0') {
-        message += `【第${response.result.medalNum + 1}块勋章完成进度】${response.result.medalPercent}%，还需收集${response.result.needCollectEnergy}好感\n`;
-        message += `【已获得勋章】${response.result.medalNum}块，还需收集${response.result.needCollectMedalNum}块即可兑换奖品“${$.petInfo.goodsInfo.goodsName}”\n`;
-    }
-}
-//再次投食
-async function feedPetsAgain() {
-    const response = await request('initPetTown'); //再次初始化萌宠
-    if (response.code === '0' && response.resultCode === '0' && response.message === 'success') {
-        $.petInfo = response.result;
-        let foodAmount = $.petInfo.foodAmount; //剩余狗粮
-        if (foodAmount - 100 >= 10) {
-            for (let i = 0; i < parseInt((foodAmount - 100) / 10); i++) {
-                const feedPetRes = await request('feedPets');
-                console.log(`投食feedPetRes`);
-                if (feedPetRes.resultCode == 0 && feedPetRes.code == 0) {
-                    console.log('投食成功')
-                }
-            }
-            const response2 = await request('initPetTown');
-            $.petInfo = response2.result;
-            subTitle = $.petInfo.goodsInfo.goodsName;
-            // message += `【与爱宠相识】${$.petInfo.meetDays}天\n`;
-            // message += `【剩余狗粮】${$.petInfo.foodAmount}g\n`;
-        } else {
-            console.log("目前剩余狗粮：【" + foodAmount + "】g,不再继续投食,保留部分狗粮用于完成第二天任务");
-            subTitle = $.petInfo.goodsInfo && $.petInfo.goodsInfo.goodsName;
-            // message += `【与爱宠相识】${$.petInfo.meetDays}天\n`;
-            // message += `【剩余狗粮】${$.petInfo.foodAmount}g\n`;
-        }
-    } else {
-        console.log(`初始化萌宠失败:  ${JSON.stringify($.petInfo)}`);
-    }
-}
-
-async function doTask() {
-    const {
-        signInit,
-        threeMealInit,
-        firstFeedInit,
-        feedReachInit,
-        inviteFriendsInit,
-        browseShopsInit,
-        taskList
-    } = $.taskInfo;
-    for (let item of taskList) {
-        if ($.taskInfo[item].finished) {
-            console.log(`任务 ${item} 已完成`)
-        }
-    }
-    //每日签到
-    if (signInit && !signInit.finished) {
-        await signInitFun();
-    }
-    // 首次喂食
-    if (firstFeedInit && !firstFeedInit.finished) {
-        await firstFeedInitFun();
-    }
-    // 三餐
-    if (threeMealInit && !threeMealInit.finished) {
-        if (threeMealInit.timeRange === -1) {
-            console.log(`未到三餐时间`);
-        } else {
-            await threeMealInitFun();
-        }
-    }
-    if (browseShopsInit && !browseShopsInit.finished) {
-        await browseShopsInitFun();
-    }
-    let browseSingleShopInitList = [];
-    taskList.map((item) => {
-        if (item.indexOf('browseSingleShopInit') > -1) {
-            browseSingleShopInitList.push(item);
-        }
-    });
-    // 去逛逛好货会场
-    for (let item of browseSingleShopInitList) {
-        const browseSingleShopInitTask = $.taskInfo[item];
-        if (browseSingleShopInitTask && !browseSingleShopInitTask.finished) {
-            await browseSingleShopInit(browseSingleShopInitTask);
-        }
-    }
-    if (inviteFriendsInit && !inviteFriendsInit.finished) {
-        await inviteFriendsInitFun();
-    }
-    // 投食10次
-    if (feedReachInit && !feedReachInit.finished) {
-        await feedReachInitFun();
-    }
-}
-// 好友助力信息
-async function masterHelpInit() {
-    let res = await request(arguments.callee.name.toString());
-    // console.log(`助力信息: ${JSON.stringify(res)}`);
-    if (res.code === '0' && res.resultCode === '0') {
-        if (res.result.masterHelpPeoples && res.result.masterHelpPeoples.length >= 5) {
-            if (!res.result.addedBonusFlag) {
-                console.log("开始领取额外奖励");
-                let getHelpAddedBonusResult = await request('getHelpAddedBonus');
-                if (getHelpAddedBonusResult.resultCode === '0') {
-                    message += `【额外奖励${getHelpAddedBonusResult.result.reward}领取】${getHelpAddedBonusResult.message}\n`;
-                }
-                console.log(`领取30g额外奖励结果：【${getHelpAddedBonusResult.message}】`);
+/**
+ * 助力好友, 暂时支持一个好友, 需要拿到shareCode
+ * shareCode为你要助力的好友的
+ * 运行脚本时你自己的shareCode会在控制台输出, 可以将其分享给他人
+ */
+async function slaveHelp() {
+    let helpPeoples = '';
+    for (let code of newShareCodes) {
+		if(NoNeedCodes){
+			var llnoneed=false;
+			for (let NoNeedCode of NoNeedCodes) {
+				if (code==NoNeedCode){
+					llnoneed=true;
+					break;
+				}
+			}
+			if(llnoneed){
+				console.log(`${code}助力已满，跳过...`);
+				continue;
+			}
+		}
+        console.log(`开始助力京东账号${$.index} - ${$.nickName || $.UserName}的好友: ${code}`);
+        if (!code)
+            continue;
+        let response = await request(arguments.callee.name.toString(), {
+                'shareCode': code
+            });
+        if (response.code === '0' && response.resultCode === '0') {
+            if (response.result.helpStatus === 0) {
+                console.log('已给好友: 【' + response.result.masterNickName + '】助力成功');
+                helpPeoples += response.result.masterNickName + '，';
+            } else if (response.result.helpStatus === 1) {
+                // 您今日已无助力机会
+                console.log(`助力好友${response.result.masterNickName}失败，您今日已无助力机会`);
+                break;
+            } else if (response.result.helpStatus === 2) {
+                //该好友已满5人助力，无需您再次助力				
+				NoNeedCodes.push(code);
+                console.log(`该好友${response.result.masterNickName}已满5人助力，无需您再次助力`);
             } else {
-                console.log("已经领取过5好友助力额外奖励");
-                message += `【额外奖励】已领取\n`;
+                console.log(`助力其他情况：${JSON.stringify(response)}`);
             }
         } else {
-            console.log("助力好友未达到5个")
-            message += `【额外奖励】领取失败，原因：给您助力的人未达5个\n`;
-        }
-        if (res.result.masterHelpPeoples && res.result.masterHelpPeoples.length > 0) {
-            console.log('帮您助力的好友的名单开始')
-            let str = '';
-            res.result.masterHelpPeoples.map((item, index) => {
-                if (index === (res.result.masterHelpPeoples.length - 1)) {
-                    str += item.nickName || "匿名用户";
-                } else {
-                    str += (item.nickName || "匿名用户") + '，';
-                }
-            })
-            message += `【助力您的好友】${str}\n`;
+			if(response.message=="已经助过力"){
+				console.log(`此账号今天已经跑过助力了，跳出....`);
+				break;
+			}else{
+				console.log(`助力好友结果: ${response.message}`);
+			}
+				
         }
     }
-}
-// 遛狗, 每天次数上限10次, 随机给狗粮, 每次遛狗结束需调用getSportReward领取奖励, 才能进行下一次遛狗
-async function petSport() {
-    console.log('开始遛弯');
-    let times = 1
-        const code = 0
-        let resultCode = 0
-        do {
-            let response = await request(arguments.callee.name.toString())
-                console.log(`第${times}次遛狗完成: ${JSON.stringify(response)}`);
-            resultCode = response.resultCode;
-            if (resultCode == 0) {
-                let sportRevardResult = await request('getSportReward');
-                console.log(`领取遛狗奖励完成: ${JSON.stringify(sportRevardResult)}`);
-            }
-            times++;
-        } while (resultCode == 0 && code == 0)
-        if (times > 1) {
-            // message += '【十次遛狗】已完成\n';
-        }
+    if (helpPeoples && helpPeoples.length > 0) {
+        message += `【您助力的好友】${helpPeoples.substr(0, helpPeoples.length - 1)}\n`;
+    }
 }
 // 初始化任务, 可查询任务完成情况
 async function taskInit() {
