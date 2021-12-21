@@ -50,11 +50,11 @@ if ($.isNode()) {
 }
 let wantProduct = ``;//心仪商品名称
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const inviteCodes = ['T014__p2RBYe_FXUIwCjVWnYaS5kRrbA@T0225KkcRRsZpwHWdEmilvUIIACjVWnYaS5kRrbA@T0225KkcRh5NplXTIEvxwfANfACjVWnYaS5kRrbA@T0225KkcRExNoFfRJEv9l_9ZIgCjVWnYaS5kRrbA@T0225KkcRhZL9VffdRunkKUNfQCjVWnYaS5kRrbA'];
+const inviteCodes = [];
 let myInviteCode;
 $.newShareCode = [];
+let llhelp=true;
 !(async () => {
-  await requireConfig();
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
     return;
@@ -81,14 +81,18 @@ $.newShareCode = [];
       await jdFactory()
     }
   }
-  for (let j = 0; j < lnTotalAcc; j++) {
-    if (cookiesArr[j]) {
-      cookie = cookiesArr[j];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      $.index = j + 1;
-      await shareCodesFormat();
-      await helpFriends();
-    }
+  if(llhelp){
+	  console.log(`\n开始账号内互助......`);
+	  for (let j = 0; j < cookiesArr.length; j++) {
+		if (cookiesArr[j]) {
+		  cookie = cookiesArr[j];
+		  $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+		  $.nickName = '';
+		  $.index = j + 1; 
+		  console.log(`【京东账号${$.index}】${$.nickName || $.UserName}:\n`);
+		  await helpFriends();
+		}
+	}
   }
 })()
   .catch((e) => {
@@ -256,12 +260,7 @@ async function algorithm() {
   })
 }
 async function helpFriends() {
-  if ($.isNode() && !process.env.DDFACTORY_SHARECODES) {
-    console.log(`您未填写助力码变量，开始账号内互助`);
-    $.newShareCode = [...(jdFactoryShareArr || []), ...(newShareCodes || [])]
-  } else {
-    $.newShareCode = newShareCodes
-  }
+  $.newShareCode = [...(jdFactoryShareArr || [])]  
   for (let code of $.newShareCode) {
     if (!code) continue
     const helpRes = await jdfactory_collectScore(code);
@@ -661,43 +660,6 @@ function jdfactory_getHomeData() {
         resolve();
       }
     })
-  })
-}
-//格式化助力码
-function shareCodesFormat() {
-  return new Promise(async resolve => {
-    console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    newShareCodes = [];
-    if ($.shareCodesArr[$.index - 1]) {
-      newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      // console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
-    resolve();
-  })
-}
-function requireConfig() {
-  return new Promise(resolve => {
-    console.log(`开始获取${$.name}配置文件\n`);
-    //Node.js用户请在jdCookie.js处填写京东ck;
-    const shareCodes = $.isNode() ? require('./jdFactoryShareCodes.js') : '';
-    console.log(`共${cookiesArr.length}个京东账号\n`);
-    $.shareCodesArr = [];
-    if ($.isNode()) {
-      Object.keys(shareCodes).forEach((item) => {
-        if (shareCodes[item]) {
-          $.shareCodesArr.push(shareCodes[item])
-        }
-      })
-    } else {
-      if ($.getdata('DDFACTORY_SHARECODES')) $.shareCodesArr = $.getdata('DDFACTORY_SHARECODES').split('\n').filter(item => !!item);
-      console.log(`\nBoxJs设置的东东工厂邀请码:${$.getdata('DDFACTORY_SHARECODES')}\n`);
-    }
-    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
-    resolve()
   })
 }
 function taskPostUrl(function_id, body = {}, function_id2) {
