@@ -20,7 +20,7 @@ export CKNOWARNERROR="true"
 ## 屏蔽青龙登陆成功通知，登陆失败不屏蔽
 export NOTIFY_NOLOGINSUCCESS="true"
 ## 通知底部显示
-export NOTIFY_AUTHOR="来源于：https://github.com/KingRan/JD-Scripts"
+export NOTIFY_AUTHOR="来源于：https://github.com/KingRan/JDJB"
 ## 增加NOTIFY_AUTHOR_BLANK 环境变量，控制不显示底部信息
 export NOTIFY_AUTHOR_BLANK="true"
  */
@@ -181,7 +181,7 @@ let isLogin = false;
 if (process.env.NOTIFY_SHOWNAMETYPE) {
     ShowRemarkType = process.env.NOTIFY_SHOWNAMETYPE;
 }
-async function sendNotify(text, desp, params = {}, author = '\n') {
+async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By https://github.com/KingRan/JDJB') {
     console.log(`开始发送通知...`);
     try {
         //Reset 变量
@@ -263,24 +263,26 @@ async function sendNotify(text, desp, params = {}, author = '\n') {
             var strPtPin = await GetPtPin(text);
             var strdecPtPin = decodeURIComponent(strPtPin);
             var llHaderror = false;
-
+			var strtext=text;
             if (strPtPin) {
                 var temptest = await getEnvByPtPin(strdecPtPin);
-                if (temptest) {                    
+                if (temptest) {
                     if (temptest.status == 0) {
                         isLogin = true;
                         await isLoginByX1a0He(temptest.value);
                         if (!isLogin) {
                             const DisableCkBody = await DisableCk(temptest._id);
+							strPtPin=temptest.value;
+							strPtPin=(strPtPin.match(/pt_pin=([^; ]+)(?=;?)/) && strPtPin.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
                             var strAllNotify = "";
                             var MessageUserGp2 = "";
                             var MessageUserGp3 = "";
                             var MessageUserGp4 = "";
-							
-							var userIndex2 = -1;
+
+                            var userIndex2 = -1;
                             var userIndex3 = -1;
                             var userIndex4 = -1;
-							
+
                             var strNotifyOneTemp = "";
                             if ($.isNode() && process.env.BEANCHANGE_USERGP2) {
                                 MessageUserGp2 = process.env.BEANCHANGE_USERGP2 ? process.env.BEANCHANGE_USERGP2.split('&') : [];
@@ -295,14 +297,14 @@ async function sendNotify(text, desp, params = {}, author = '\n') {
                             }
 
                             if (MessageUserGp4) {
-                                userIndex4 = MessageUserGp4.findIndex((item) => item === $.UserName);
+                                userIndex4 = MessageUserGp4.findIndex((item) => item === strPtPin);
 
                             }
                             if (MessageUserGp2) {
-                                userIndex2 = MessageUserGp2.findIndex((item) => item === $.UserName);
+                                userIndex2 = MessageUserGp2.findIndex((item) => item === strPtPin);
                             }
                             if (MessageUserGp3) {
-                                userIndex3 = MessageUserGp3.findIndex((item) => item === $.UserName);
+                                userIndex3 = MessageUserGp3.findIndex((item) => item === strPtPin);
                             }
 
                             if (userIndex2 != -1) {
@@ -333,19 +335,21 @@ async function sendNotify(text, desp, params = {}, author = '\n') {
                             }
 
                             if (DisableCkBody.code == 200) {
-								console.log(`京东账号` + strdecPtPin + `已失效,自动禁用成功!\n`);
-								
+                                console.log(`京东账号` + strdecPtPin + `已失效,自动禁用成功!\n`);
+
                                 strNotifyOneTemp = `京东账号: ` + strdecPtPin + ` 已失效,自动禁用成功!\n如果要继续挂机，请联系管理员重新登录账号，账号有效期为30天.`;
+								strNotifyOneTemp+="\n任务标题："+strtext;
                                 if (strAllNotify)
                                     strNotifyOneTemp += `\n` + strAllNotify;
                                 desp = strNotifyOneTemp;
                                 if (WP_APP_TOKEN_ONE) {
                                     await sendNotifybyWxPucher(`账号过期下线通知`, strNotifyOneTemp, strdecPtPin);
                                 }
-                                
+
                             } else {
-								console.log(`京东账号` + strPtPin + `已失效,自动禁用失败!\n`);
+                                console.log(`京东账号` + strPtPin + `已失效,自动禁用失败!\n`);
                                 strNotifyOneTemp = `京东账号: ` + strdecPtPin + ` 已失效!\n如果要继续挂机，请联系管理员重新登录账号，账号有效期为30天.`;
+								strNotifyOneTemp+="\n任务标题："+strtext;
                                 if (strAllNotify)
                                     strNotifyOneTemp += `\n` + strAllNotify;
                                 desp = strNotifyOneTemp;
@@ -1292,7 +1296,7 @@ async function sendNotify(text, desp, params = {}, author = '\n') {
                             text = text.replace(new RegExp(`${$.UserName}|${$.nickName}`, 'gm'), $.Remark);
 
                             if (text == "京东资产变动" || text == "京东资产变动#2" || text == "京东资产变动#3" || text == "京东资产变动#4") {
-                                var Tempinfo = getQLinfo(cookie, envs[i].created, envs[i].timestamp);
+                                var Tempinfo = getQLinfo(cookie, envs[i].created, envs[i].timestamp, envs[i].remarks);
                                 if (Tempinfo) {
                                     $.Remark += Tempinfo;
                                 }
@@ -1401,10 +1405,23 @@ function getuuid(strRemark, PtPin) {
         if (Tempindex != -1) {
             console.log("检测到NVJDC的一对一格式,瑞思拜~!");
             var TempRemarkList = strRemark.split("@@");
-            strTempuuid = TempRemarkList[1];
+            for (let j = 1; j < TempRemarkList.length; j++) {
+                if (TempRemarkList[j]) {
+                    if (TempRemarkList[j].length > 4) {
+                        if (TempRemarkList[j].substring(0, 4) == "UID_") {
+                            strTempuuid = TempRemarkList[j];
+                            break;
+                        }
+                    }
+                }
+            }
+			if(!strTempuuid){
+				console.log("检索资料失败...");
+			}
         }
     }
     if (!strTempuuid && TempCKUid) {
+        console.log("正在从CK_WxPusherUid文件中检索资料...");
         for (let j = 0; j < TempCKUid.length; j++) {
             if (PtPin == TempCKUid[j].pt_pin) {
                 strTempuuid = TempCKUid[j].Uid;
@@ -1415,14 +1432,29 @@ function getuuid(strRemark, PtPin) {
     return strTempuuid;
 }
 
-function getQLinfo(strCK, intcreated, strTimestamp) {
+function getQLinfo(strCK, intcreated, strTimestamp, strRemark) {
     var strCheckCK = strCK.match(/pt_key=([^; ]+)(?=;?)/) && strCK.match(/pt_key=([^; ]+)(?=;?)/)[1];
     var strReturn = "";
     if (strCheckCK.substring(0, 4) == "AAJh") {
         var DateCreated = new Date(intcreated);
         var DateTimestamp = new Date(strTimestamp);
         var DateToday = new Date();
-
+        if (strRemark) {
+            var Tempindex = strRemark.indexOf("@@");
+            if (Tempindex != -1) {
+                console.log("检测到NVJDC的备注格式,尝试获取登录时间,瑞思拜~!");
+                var TempRemarkList = strRemark.split("@@");
+                for (let j = 1; j < TempRemarkList.length; j++) {
+                    if (TempRemarkList[j]) {
+                        if (TempRemarkList[j].length == 13) {
+                            DateTimestamp = new Date(parseInt(TempRemarkList[j]));
+							console.log("获取登录时间成功:"+GetDateTime(DateTimestamp));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         //过期时间
         var UseDay = Math.ceil((DateToday.getTime() - DateCreated.getTime()) / 86400000);
         var LogoutDay = 30 - Math.ceil((DateToday.getTime() - DateTimestamp.getTime()) / 86400000);
@@ -1501,7 +1533,7 @@ async function sendNotifybyWxPucher(text, desp, PtPin, author = '\n\n本通知 B
                             //额外处理1，nickName包含星号
                             $.nickName = $.nickName.replace(new RegExp(`[*]`, 'gm'), "[*]");
 
-                            var Tempinfo = getQLinfo(cookie, tempEnv.created, tempEnv.timestamp);
+                            var Tempinfo = getQLinfo(cookie, tempEnv.created, tempEnv.timestamp, tempEnv.remarks);
                             if (Tempinfo) {
                                 Tempinfo = $.nickName + Tempinfo;
                                 desp = desp.replace(new RegExp(`${$.UserName}|${$.nickName}`, 'gm'), Tempinfo);
