@@ -23,6 +23,8 @@ export NOTIFY_NOLOGINSUCCESS="true"
 export NOTIFY_AUTHOR="来源于：https://github.com/KingRan/JDJB"
 ## 增加NOTIFY_AUTHOR_BLANK 环境变量，控制不显示底部信息
 export NOTIFY_AUTHOR_BLANK="true"
+## 增加NOTIFY_AUTOCHECKCK为true才开启通知脚本内置的自动禁用过期ck
+export NOTIFY_AUTOCHECKCK=“true”
  */
 //详细说明参考 https://github.com/ccwav/QLScript2.
 const querystring = require('querystring');
@@ -224,7 +226,8 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By ht
         var Use_gobotNotify = true;
         var Use_pushPlushxtripNotify = true;
         var Use_WxPusher = true;
-
+        var strtext = text;
+        var strdesp = desp;
         if (process.env.NOTIFY_NOCKFALSE) {
             Notify_NoCKFalse = process.env.NOTIFY_NOCKFALSE;
         }
@@ -246,8 +249,8 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By ht
                 }
             }
         }
-		
-		if (text.indexOf("cookie已失效") != -1 || desp.indexOf("重新登录获取") != -1 || text == "Ninja 运行通知") {
+
+        if (text.indexOf("cookie已失效") != -1 || desp.indexOf("重新登录获取") != -1 || text == "Ninja 运行通知") {
 
             if (Notify_CKTask) {
                 console.log("触发CK脚本，开始执行....");
@@ -257,27 +260,27 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By ht
                 });
             }
         }
-		
-        if (text.indexOf("cookie已失效") != -1 || desp.indexOf("重新登录获取") != -1) {
-            console.log(`捕获CK过期通知，开始尝试处理...`);
-            var strPtPin = await GetPtPin(text);
-            var strdecPtPin = decodeURIComponent(strPtPin);
-            var llHaderror = false;
-			var strtext=text;
-            if (strPtPin) {
-                var temptest = await getEnvByPtPin(strdecPtPin);
-                if (temptest) {
-                    if (temptest.status == 0) {
-                        isLogin = true;
-                        await isLoginByX1a0He(temptest.value);
-                        if (!isLogin) {
-                            const DisableCkBody = await DisableCk(temptest._id);
-							strPtPin=temptest.value;
-							strPtPin=(strPtPin.match(/pt_pin=([^; ]+)(?=;?)/) && strPtPin.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-                            var strAllNotify = "";
-                            var MessageUserGp2 = "";
-                            var MessageUserGp3 = "";
-                            var MessageUserGp4 = "";
+        if (process.env.NOTIFY_AUTOCHECKCK == "true") {
+            if (text.indexOf("cookie已失效") != -1 || desp.indexOf("重新登录获取") != -1) {
+                console.log(`捕获CK过期通知，开始尝试处理...`);
+                var strPtPin = await GetPtPin(text);
+                var strdecPtPin = decodeURIComponent(strPtPin);
+                var llHaderror = false;
+
+                if (strPtPin) {
+                    var temptest = await getEnvByPtPin(strdecPtPin);
+                    if (temptest) {
+                        if (temptest.status == 0) {
+                            isLogin = true;
+                            await isLoginByX1a0He(temptest.value);
+                            if (!isLogin) {
+                                const DisableCkBody = await DisableCk(temptest._id);
+                                strPtPin = temptest.value;
+                                strPtPin = (strPtPin.match(/pt_pin=([^; ]+)(?=;?)/) && strPtPin.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+                                var strAllNotify = "";
+                                var MessageUserGp2 = "";
+                                var MessageUserGp3 = "";
+                                var MessageUserGp4 = "";
 
                             var userIndex2 = -1;
                             var userIndex3 = -1;
@@ -368,12 +371,18 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By ht
 
                 }
 
-            } else {
-                console.log(`CK过期通知处理失败...`);
+                } else {
+                    console.log(`CK过期通知处理失败...`);
+                }
+                if (llHaderror)
+                    return;
             }
-            if (llHaderror)
+        }
+        if (strtext.indexOf("cookie已失效") != -1 || strdesp.indexOf("重新登录获取") != -1 || strtext == "Ninja 运行通知") {
+            if (Notify_NoCKFalse == "true" && text != "Ninja 运行通知") {
                 return;
-        }        
+            }
+        }
 
         //检查黑名单屏蔽通知
         const notifySkipList = process.env.NOTIFY_SKIP_LIST ? process.env.NOTIFY_SKIP_LIST.split('&') : [];
