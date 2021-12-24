@@ -116,8 +116,6 @@ async function run() {
             let msg = `(${$.oneTask.finishCount}/${$.oneTask.taskCount})`
             let status = `${$.oneTask.finishCount >= $.oneTask.taskCount && '已完成' || "去" + (1 == $.oneTask.groupType ? "关注" : 2 == $.oneTask.groupType ? "加购" : 3 == $.oneTask.groupType ? "关注" : 6 == $.oneTask.groupType ? "浏览" : "做任务")}`
             console.log(`${name}${msg} ${status}`)
-            if(guaopencard_addSku+"" != "true" && 2 == $.oneTask.groupType) console.log('如需加购请设置环境变量[guaopencard_addSku17]为"true"\n');
-            if(guaopencard_addSku+"" != "true" && 2 == $.oneTask.groupType) continue;
             if($.oneTask.finishCount < $.oneTask.taskCount){
               await doTask(`{"configCode":"${item.configCode}","groupType":${$.oneTask.groupType},"itemId":"${$.oneTask.item.itemId}","eid":"${$.eid}","fp":"${$.fp}"}`)
               let c = $.oneTask.taskCount - $.oneTask.finishCount - 1
