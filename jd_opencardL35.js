@@ -20,7 +20,7 @@ cron:50 0,9 23-31,1-9 12,1 *
 ============Quantumultx===============
 [task_local]
 #12.23~1.9 双旦寻宝 玩转大富翁-3
-50 0,9 23-31,1-9 12,1 * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_opencardL35.js, tag=12.23~1.9 双旦寻宝 玩转大富翁-3, enabled=true
+50 0,9 23-31,1-9 12,1 *  https://raw.githubusercontent.com/KingRan/JDJB/main/jd_opencardL35.js, tag=12.23~1.9 双旦寻宝 玩转大富翁-3, enabled=true
 
 */
 
