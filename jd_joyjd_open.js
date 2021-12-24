@@ -8,17 +8,17 @@ JoyJd任务脚本
 ============Quantumultx===============
 [task_local]
 #JoyJd任务脚本
-35 7 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js, tag=JoyJd任务脚本, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+5 2,18 * * * https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js, tag=JoyJd任务脚本, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "35 7 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js,tag=JoyJd任务脚本
+cron "5 2,18 * * *" script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js,tag=JoyJd任务脚本
 
 ===============Surge=================
-JoyJd任务脚本 = type=cron,cronexp="35 7 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js
+JoyJd任务脚本 = type=cron,cronexp="5 2,18 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js
 
 ============小火箭=========
-JoyJd任务脚本 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js, cronexpr="35 7 * * *", timeout=3600, enable=true
+JoyJd任务脚本 = type=cron,script-path=https://raw.githubusercontent.com/KingRan/JDJB/main/jd_joyjd_open.js, cronexpr="5 2,18 * * *", timeout=3600, enable=true
  */
 const $ = new Env('JoyJd任务脚本');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -26,7 +26,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [];
 const activityList = [
    //{'activityId':'6a5cfe9c54944295a489ea06b649a4ed','endTime':1636732800000},
-      {'activityId':'9fdb6cdb7e974b22994ea774ea566470','endTime':1636819199000},
+      {'activityId':'d81180ef0c8e4efca2621ee6786f2814','endTime':9999999999999},
    // {'activityId':'1d43119d79ba4fc3a254c449c6aea1d2','endTime':1636732799000},
     //{'activityId':'40c2d87a71ec40cf96badb810818bb92','endTime':1636732799000},
    // {'activityId':'c884f4e473884217ad8fabcc160ecda0','endTime':1636819200000},
