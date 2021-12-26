@@ -32,6 +32,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [],
   cookie = '';
+let hotFlag = false;
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -115,6 +116,7 @@ message = ""
       //从低合到高
       await doJoyMergeAll($.activityJoyList)
       await getGameMyPrize()
+	  await $.wait(1500)
     }
   }
 })()
@@ -286,6 +288,9 @@ async function doJoyMergeAll(activityJoyList) {
     $.log(`开始合成 ${minLevel} ${joyMinLevelArr[0].id} <=> ${joyMinLevelArr[1].id} 【限流严重，5秒后合成！如失败会重试】`);
     await $.wait(5000)
     await doJoyMerge(joyMinLevelArr[0].id, joyMinLevelArr[1].id);
+	    if (hotFlag) {
+      return false;
+    }
     await getJoyList()
     await doJoyMergeAll($.activityJoyList)
   } else if (joyMinLevelArr.length === 1 && joyMinLevelArr[0].level < fastBuyLevel) {
@@ -343,12 +348,17 @@ function doJoyMerge(joyId1, joyId2) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
           data = {}
+          hotFlag = true;
         } else {
           data = JSON.parse(data);
           $.log(`合成 ${joyId1} <=> ${joyId2} ${data.success ? `成功！` : `失败！【${data.errMsg}】 code=${data.code}`}`)
+          if (data.code == '1006') {
+            hotFlag = true
+          }
         }
       } catch (e) {
         $.logErr(e, resp)
+        hotFlag = true;
       } finally {
         resolve(data.data);
       }
