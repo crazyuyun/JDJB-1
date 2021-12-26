@@ -27,7 +27,7 @@ cron:30 5,19 24,25,26 12 *
 
 */
 
-const $ = new Env('12.20～12.26 联合开卡-91');
+const $ = new Env('12.20～12.26 联合开卡');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //IOS等用户直接用NobyDa的jd cookie
