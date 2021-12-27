@@ -49,6 +49,7 @@ if ($.isNode()) {
                 continue
             }
             await domain();
+			await $.wait(3000);
         }
     }
     if (message !== "") {
@@ -58,7 +59,6 @@ if ($.isNode()) {
             $.msg($.name, '', message)
         }
     }
-	await $.wait(3000)
 })().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); })
 
 async function domain() {
